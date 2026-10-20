@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nihongo Mỗi Ngày</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ===== Màu sắc (sáng / tối) ===== */
+:root{--bg:#f5f3ee;--card:#fff;--ink:#1d2127;--muted:#6b7079;--line:#e4e0d6;--accent:#c2410c;--accent-ink:#fff;--accent-soft:#fcebe1;--ok:#15803d;--ok-soft:#e6f5eb;--ng:#b91c1c;--ng-soft:#fcebeb;--hard:#a16207;--hard-soft:#fbf3dc;--easy:#1d4ed8;--easy-soft:#e7eefc;--shadow:0 1px 2px rgba(0,0,0,.04),0 6px 20px rgba(0,0,0,.05)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#131518;--card:#1d2024;--ink:#ebe9e4;--muted:#9a9fa7;--line:#2f333a;--accent:#fb923c;--accent-ink:#1a1206;--accent-soft:#3a2416;--ok:#4ade80;--ok-soft:#14301f;--ng:#f87171;--ng-soft:#3a1b1b;--hard:#facc15;--hard-soft:#352c10;--easy:#93b4ff;--easy-soft:#1b2640;--shadow:none}}
+:root[data-theme="dark"]{--bg:#131518;--card:#1d2024;--ink:#ebe9e4;--muted:#9a9fa7;--line:#2f333a;--accent:#fb923c;--accent-ink:#1a1206;--accent-soft:#3a2416;--ok:#4ade80;--ok-soft:#14301f;--ng:#f87171;--ng-soft:#3a1b1b;--hard:#facc15;--hard-soft:#352c10;--easy:#93b4ff;--easy-soft:#1b2640;--shadow:none}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 "Be Vietnam Pro",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.jp{font-family:"Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:780px;margin:0 auto;padding:0 16px 96px}
+.muted{color:var(--muted)}.small{font-size:13px}
+h2,h3{margin:0;line-height:1.3}h2{font-size:21px}h3{font-size:17px}
+
+/* ===== Đầu trang + thanh tab ===== */
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0 12px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+.brand .logo{width:34px;height:34px;border-radius:9px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:"Noto Sans JP";font-size:18px}
+nav.tabs{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px}
+.tab{border:0;background:none;padding:7px 12px;border-radius:9px;cursor:pointer;color:var(--muted);font-weight:500;white-space:nowrap}
+.tab.on{background:var(--accent-soft);color:var(--accent)}
+body.in-session nav.tabs{visibility:hidden}
+@media (max-width:640px){
+ nav.tabs{position:fixed;left:0;right:0;bottom:0;border-radius:0;border-width:1px 0 0;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom));z-index:10}
+ .tab{display:flex;flex-direction:column;align-items:center;font-size:12px;padding:4px 6px;flex:1}
+ .tab i{font-style:normal;font-size:18px}
+ body.in-session nav.tabs{display:none}
+}
+@media (min-width:641px){.tab i{font-style:normal;margin-right:5px}}
+
+/* ===== Thẻ, nút ===== */
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.sec-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--card);padding:10px 16px;border-radius:11px;cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:6px;justify-content:center;min-height:44px}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:transparent}
+.btn.sm{min-height:34px;padding:5px 11px;font-size:14px}
+.btn:disabled{opacity:.5;cursor:default}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.actions.center{justify-content:center}
+.icon{border:0;background:var(--accent-soft);color:var(--accent);width:38px;height:38px;border-radius:10px;cursor:pointer;font-size:17px;display:inline-grid;place-items:center;flex:none}
+.icon.sm{width:30px;height:30px;font-size:14px;vertical-align:middle}
+.pill{background:var(--accent-soft);color:var(--accent);border-radius:99px;padding:2px 10px;font-size:13px;font-weight:600}
+.badge{display:inline-block;border-radius:6px;padding:0 6px;font-size:12px;font-weight:600}
+.b-new{background:var(--easy-soft);color:var(--easy)}.b-learn{background:var(--hard-soft);color:var(--hard)}.b-done{background:var(--ok-soft);color:var(--ok)}
+
+/* ===== Trang Hôm nay ===== */
+.hero-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.streak{text-align:center;background:var(--accent-soft);color:var(--accent);border-radius:14px;padding:6px 12px;min-width:64px;line-height:1.1}
+.streak b{display:block;font-size:22px}.streak span{font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px}
+.stat{background:var(--bg);border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-size:20px;font-variant-numeric:tabular-nums}.stat span{font-size:12px;color:var(--muted)}
+@media (max-width:480px){.stats{grid-template-columns:repeat(2,1fr)}}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.chip{text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:1px;position:relative;min-width:0}
+.chip .w{font-size:20px;font-weight:700}.chip .r{font-size:13px;color:var(--accent)}.chip .m{font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip.done::after{content:"✓";position:absolute;top:8px;right:10px;color:var(--ok);font-weight:700}
+.due-num{font-size:34px;font-weight:700;color:var(--accent);line-height:1}
+
+/* ===== Phiên học ===== */
+.ses-head{display:flex;align-items:center;gap:10px;margin:4px 0 14px}
+.bar{flex:1;height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .3s}
+.flash{min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;gap:6px;padding:26px 18px}
+.tag{font-size:12px;color:var(--muted);background:var(--bg);border-radius:99px;padding:2px 10px}
+.big{font-size:52px;font-weight:700;line-height:1.35;word-break:break-word}
+.rdl{display:block;font-size:.34em;font-weight:500;color:var(--accent);line-height:1.4}
+.big rt{font-size:17px;font-weight:500;color:var(--accent)}
+.hint{margin-top:10px;font-size:14px}
+.detail{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}
+.ro{color:var(--muted);font-style:italic}
+.mean{font-size:21px;font-weight:600}
+.row-btn{display:flex;gap:8px;justify-content:center}
+.ex{background:var(--bg);border-radius:12px;padding:10px 14px;width:100%;max-width:560px;text-align:left}
+.ex .jp{font-size:17px}
+mark{background:var(--accent-soft);color:var(--accent);border-radius:4px;padding:0 2px}
+.rate{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.rate .btn{flex-direction:column;gap:0;padding:8px 4px}
+.rate small{font-weight:400;font-size:12px;opacity:.8}
+.rate-1{background:var(--ng-soft);color:var(--ng);border-color:transparent}
+.rate-2{background:var(--hard-soft);color:var(--hard);border-color:transparent}
+.rate-3{background:var(--ok-soft);color:var(--ok);border-color:transparent}
+.rate-4{background:var(--easy-soft);color:var(--easy);border-color:transparent}
+.qtype{font-size:13px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
+.prompt{text-align:center;padding:12px 0 18px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.big-vn{font-size:26px;font-weight:700}
+.sent{font-size:22px;line-height:1.7}
+.blank{display:inline-block;min-width:3em;border-bottom:3px solid var(--accent);color:transparent}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:520px){.opts{grid-template-columns:1fr}}
+.opt{display:flex;align-items:center;gap:10px;text-align:left;border:1.5px solid var(--line);background:var(--card);border-radius:12px;padding:12px 14px;cursor:pointer;min-height:56px}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt kbd{font:600 12px/1 "Be Vietnam Pro";background:var(--bg);border-radius:6px;padding:5px 7px;color:var(--muted);flex:none}
+.opt span.jp{font-size:20px}
+.opt.correct{border-color:var(--ok);background:var(--ok-soft);color:var(--ok)}
+.opt.wrong{border-color:var(--ng);background:var(--ng-soft);color:var(--ng)}
+.opt.dim{opacity:.55}
+.opt:disabled{cursor:default}
+.type-row{display:flex;gap:8px}
+.type-row input{flex:1;min-width:0;font-size:20px;padding:10px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg)}
+.type-row input:focus{outline:none;border-color:var(--accent)}
+.fb{margin-top:16px;border-radius:14px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.fb.ok{background:var(--ok-soft)}.fb.ng{background:var(--ng-soft)}
+.fb-title{font-weight:700;font-size:18px}.fb.ok .fb-title{color:var(--ok)}.fb.ng .fb-title{color:var(--ng)}
+.fb-word{font-size:30px;font-weight:700}.fb-word rt{font-size:14px;color:var(--accent)}
+.fb .ex{background:var(--card)}
+.fb .next{margin-top:6px;min-width:200px}
+.finish{text-align:center;padding:30px 18px}
+.big-emoji{font-size:54px}
+.score{font-size:44px;font-weight:700;color:var(--accent)}
+
+/* ===== Kho từ / cài đặt ===== */
+.filters{display:grid;grid-template-columns:1fr auto auto;gap:8px}
+@media (max-width:560px){.filters{grid-template-columns:1fr 1fr}.filters input{grid-column:1/-1}}
+.field,.filters input,.filters select,select.field{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:9px 12px;width:100%;min-height:42px}
+.vrow{display:grid;grid-template-columns:minmax(90px,1.1fr) 2fr auto;gap:10px;align-items:center;padding:10px 2px;border-bottom:1px solid var(--line)}
+.vrow:last-child{border-bottom:0}
+.vw .w{font-size:19px;font-weight:700;display:block;word-break:break-word}.vw .r{font-size:13px;color:var(--accent)}
+.vact{display:flex;gap:4px}
+@media (max-width:520px){.vrow{grid-template-columns:1fr auto}.vm{grid-column:1/-1;grid-row:2}}
+.set-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.set-row:last-child{border-bottom:0}
+.set-row label{flex:1}
+.set-row input[type=number],.set-row input[type=time],.set-row select{width:120px;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:7px 10px}
+.set-row input[type=checkbox],.grp input{width:20px;height:20px;accent-color:var(--accent)}
+.grps{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:4px 14px;max-height:300px;overflow:auto;padding:4px 0}
+.grp{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:14px}
+textarea.field{min-height:110px;resize:vertical}
+.note{background:var(--bg);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--muted);margin:8px 0}
+.note b{color:var(--ink)}
+.note ol{margin:4px 0;padding-left:20px}
+dialog{border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);padding:18px;width:min(520px,calc(100vw - 32px))}
+dialog::backdrop{background:rgba(0,0,0,.4)}
+dialog label{display:block;font-size:13px;color:var(--muted);margin:10px 0 4px}
+dialog menu{display:flex;justify-content:flex-end;gap:8px;padding:0;margin:16px 0 0}
+#toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;transition:.25s;max-width:calc(100vw - 32px);z-index:50}
+#toast.show{opacity:1;transform:translateX(-50%)}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <header class="top">
+  <div class="brand"><span class="logo">日</span>Nihongo Mỗi Ngày</div>
+  <nav class="tabs">
+   <button class="tab" data-act="tab" data-v="today"><i>🏠</i>Hôm nay</button>
+   <button class="tab" data-act="tab" data-v="review"><i>🔁</i>Ôn tập</button>
+   <button class="tab" data-act="tab" data-v="vocab"><i>📚</i>Kho từ</button>
+   <button class="tab" data-act="tab" data-v="settings"><i>⚙️</i>Cài đặt</button>
+  </nav>
+ </header>
+ <main id="main"></main>
+</div>
+
+<dialog id="dlg">
+ <form method="dialog" id="editForm">
+  <h3 id="dlgTitle">Sửa từ</h3>
+  <label>Từ tiếng Nhật *</label><input class="field jp" name="w" required>
+  <label>Cách đọc (hiragana/katakana)</label><input class="field jp" name="r">
+  <label>Romaji</label><input class="field" name="ro">
+  <label>Nghĩa tiếng Việt *</label><input class="field" name="m" required>
+  <label>Câu ví dụ</label><input class="field jp" name="ex">
+  <label>Dịch câu ví dụ</label><input class="field" name="exTr">
+  <label>Nhóm</label><input class="field" name="g" list="grpList"><datalist id="grpList"></datalist>
+  <menu><button class="btn ghost" value="cancel" formnovalidate>Huỷ</button><button class="btn primary" value="ok">Lưu</button></menu>
+ </form>
+</dialog>
+<div id="toast"></div>
+
+<!-- Từ đã lưu trên Language Reactor: [từ, cách đọc, nghĩa, câu phụ đề, dịch câu, phim, đã biết, thời điểm lưu] -->
+<script id="lrdata" type="application/json">[["ハメる","はめる","lừa, bẫy, lừa gạt","あんた 本気で石洋をハメる気か？","Anh định gài bẫy Sekiyo thật à?","Lừa đảo ở Tokyo",0,1792431594108],["口直し","くちなおし","món tráng miệng, làm sạch miệng, tráng miệng","口直ししなきゃ やってらんねえよ","Tôi cần thanh lọc bản thân.","Lừa đảo ở Tokyo",0,1792431431395],["敷地","しきち","khu đất, diện tích, mặt bằng","及び 隣に立っている建物の敷地","và khu đất cho tòa nhà liền kề.","Lừa đảo ở Tokyo",0,1792431075394],["隣接","りんせつ","liền kề, tiếp giáp, kề bên","場所は “光庵寺”ゆう寺に 隣接してる駐車場","Khu đất gồm một bãi đỗ xe cạnh một ngôi chùa tên Kouan-ji","Lừa đảo ở Tokyo",0,1792431058112],["ぽっかり","ぽっかり","trống rỗng, trống trải, trơ trọi","こいつのぽっかり空いた胸の穴？","cô có thể lấp đầy khoảng trống trong tim anh ấy, cô biết đấy.","Lừa đảo ở Tokyo",0,1792430716866],["大詰め","おおづめ","giai đoạn cuối, cao trào, hồi kết","契約が大詰めまで来たら 一度だけさせましょう","Ta sẽ chỉ cho họ gặp khi đàm phán đến giai đoạn cuối.","Lừa đảo ở Tokyo",0,1792430216098],["一本釣り","いっぽんづり","câu một con, bắt một con, câu cá một cần","ああ 一本釣りっちゅうやつか","À hiểu rồi. \"Tuyển dụng có mục tiêu\".","Lừa đảo ở Tokyo",0,1792430100900],["エリート","えりーと","ưu tú, tinh hoa, giới thượng lưu","ええ 石洋社員のようなエリートは","Ừ. Bọn ưu tú như nhân viên Sekiyo không bao giờ nghi ngờ quyền thế.","Lừa đảo ở Tokyo",0,1792430042923],["手広い","てびろい","đa ngành, đa lĩnh vực, lan rộng","手広くやっている会社のようです","Họ làm ăn khá đa dạng.","Lừa đảo ở Tokyo",0,1792429926857],["かぶせる","かぶせる","phủ, che, trùm","いざとなったら その会社に 泥かぶせるっちゅうことか","Và để công ty đó gánh tội vào đúng thời điểm?","Lừa đảo ở Tokyo",0,1792429739683],["平取","ひらとり","Bình Thạnh, Bình Thuận, Bình Định","俺が上に行ったら お前を 平取として残しておいてやるよ","Lên đỉnh rồi, tôi sẽ giữ anh làm giám đốc không điều hành.","Lừa đảo ở Tokyo",0,1792429532704],["無様","ぶざま","kém cỏi, vụng về, thô kệch","無様だな","Thật thảm hại.","Lừa đảo ở Tokyo",0,1792429458972],["代替え","だいがえ","thay thế, thế chỗ, thay","代替えの土地は その後どうですか？","Về dự án Oimachi đã bị hủy, có tin gì về khu đất thay thế không?","Lừa đảo ở Tokyo",0,1792429304134],["頓挫","とんざ","sự thất bại, sự đình trệ, sự trì trệ","例の頓挫してしまった 大井町プロジェクトの件","Về dự án Oimachi đã bị hủy, có tin gì về khu đất thay thế không?","Lừa đảo ở Tokyo",0,1792429274111],["町場","まちば","khu phố, thị trấn, thành phố","いきなり得体の知れない 町場の 不動産ブローカーが出てきても","họ sẽ nghi ngờ một kẻ môi giới vô danh tiểu tốt từ trên trời rớt xuống.","Lừa đảo ở Tokyo",0,1792428550778],["得体","えたい","đàng hoàng, chỉnh tề, tươm tất","いきなり得体の知れない 町場の 不動産ブローカーが出てきても","họ sẽ nghi ngờ một kẻ môi giới vô danh tiểu tốt từ trên trời rớt xuống.","Lừa đảo ở Tokyo",0,1792428543334],["けしかける","けしかける","xúi giục, khiêu khích, dập tắt","ほな 青柳を突っついて 社長をけしかければ…","Vậy nếu ta huých nhẹ Aoyagi và thúc đẩy tổng giám đốc…","Lừa đảo ở Tokyo",0,1792428408928],["つっつく","つっつく","chọc, húc, đâm","ほな 青柳を突っついて 社長をけしかければ…","Vậy nếu ta huých nhẹ Aoyagi và thúc đẩy tổng giám đốc…","Lừa đảo ở Tokyo",0,1792428399883],["一任","いちにん","ủy thác, giao phó, giao hẳn","いや 国内の大型案件に関しては 安倍川に一任しているんですよ","Không. Abekawa được mặc sức đối với các dự án lớn trong Nhật Bản.","Lừa đảo ở Tokyo",0,1792428323733],["案件","あんけん","vụ việc, dự án, vấn đề","いや 国内の大型案件に関しては 安倍川に一任しているんですよ","Không. Abekawa được mặc sức đối với các dự án lớn trong Nhật Bản.","Lừa đảo ở Tokyo",0,1792428313524],["子飼い","こがい","đệ tử, tay sai, Nuôi con","和田島の長年の 子飼いの部下で","ông ta ở dưới trướng Wadajima từ thời trẻ.","Lừa đảo ở Tokyo",0,1792428171867],["最大手","さいおおて","lớn nhất, vĩ đại nhất, toàn diện nhất","今の業界最大手にした いわば天皇ですな","Chủ tịch Wadajima đã lãnh đạo Sekiyo thành nhà phát triển hàng đầu, nên ông ấy như hoàng đế.","Lừa đảo ở Tokyo",0,1792428151791],["一等地","いっとうち","vị trí đắc địa, khu vực đắc địa, đắc địa","食いつくでしょうな あんな 一等地","Nói chung, nhà phát triển nào cũng sẽ vồ lấy vị trí đắc địa đó.","Lừa đảo ở Tokyo",0,1792428001403],["デベロッパー","でべろっぱー","nhà phát triển, bên phát triển, chủ đầu tư","まあ 普通に考えたら どこのデベロッパーも","Nói chung, nhà phát triển nào cũng sẽ vồ lấy vị trí đắc địa đó.","Lừa đảo ở Tokyo",0,1792427986327],["自業自得","じごうじとく","gieo nhân nào gặt quả ấy, tự làm tự chịu, ác giả ác báo","なんだよ それ！ 自業自得じゃねえかよ！","Cái quái gì vậy? Tự làm tự chịu mà!","Lừa đảo ở Tokyo",0,1792427632787],["不始末","ふしまつ","sự bất cẩn, sự cẩu thả, sự tắc trách","タバコの不始末です","Tôi không dụi thuốc tử tế.","Lừa đảo ở Tokyo",0,1792427586275],["ロリコン","ろりこん","Lolicon, loạn dâm trẻ con, ấu dâm","ヤツらが ロリコンの客を 紹介してるみたいっすよ","Nên công ty gửi bọn đó cho các vị khách thích gái tơ.","Lừa đảo ở Tokyo",0,1792427465093],["たむろ","たむろ","tụ tập, tụ lại, tụm tụm","最近 映画館の脇に たむろしてる バカな女子中高生たち","Đám con gái tuổi teen ngu ngốc la cà quanh các rạp chiếu phim thời nay.","Lừa đảo ở Tokyo",0,1792427392652],["斡旋","あっせん","môi giới, trung gian, hòa giải","要は 風俗の斡旋っすね","nhưng lại tuyển gái ở khu đèn đỏ.","Lừa đảo ở Tokyo",0,1792427298395],["表向き","おもてむき","bề ngoài, công khai, dường như","で 表向きは 人材派遣会社って ことになってるけど","Dù sao, ngoài mặt họ là công ty nhân sự,","Lừa đảo ở Tokyo",0,1792427279124],["チンタラ","ちんたら","chậm chạp, lề mề, ì ạch","チンタラ歩くなよ！","Chậm chạp kinh khủng!","Lừa đảo ở Tokyo",1,1792427007061],["勃つ","たつ","dấy lên, nổi lên, thức dậy","いや 俺 マジで勃たないんすよ！","Tôi không cương nổi với ả!","Lừa đảo ở Tokyo",0,1792426782924],["歩合制","ぶあいせい","hệ thống theo tỷ lệ, tỷ lệ hoa hồng, cơ chế chia sẻ lợi nhuận","つーか 歩合制にしてもらえないすか？","Trả kiểu hoa hồng được không? Mỗi lần làm cô ta lên đỉnh là 100.000 yên.","Lừa đảo ở Tokyo",0,1792426709174],["ギャラ","ぎゃら","thù lao, tiền công, cát-sê","ババアに ギャラ上げるように言っとくから","Tôi sẽ bảo mụ quỷ ấy trả thêm.","Lừa đảo ở Tokyo",0,1792426674109],["ピンドン","ぴんどん","tráng miệng, món tráng miệng, bánh tráng miệng","服部様より ピンドン 入りましたー！","Cô Hattori vừa gọi một chai Dom Pérignon Rosé!","Lừa đảo ở Tokyo",0,1792426597736],["アニバーサリー","あにばーさりー","lễ kỷ niệm, kỷ niệm, ngày kỷ niệm","えっ だって今日は アニバーサリーだよ","Hôm nay là ngày kỷ niệm đấy, cậu biết chứ?","Lừa đảo ở Tokyo",0,1792426497394],["地主","じぬし","chủ đất, địa chủ, tá điền","地主として紹介された老人も","Và ông già ông ta giới thiệu là chủ đất…","Lừa đảo ở Tokyo",0,1792426221055],["立地","りっち","vị trí, địa điểm, khu vực","駅から近く 立地がいい場所でした","Nó ở một vị trí tuyệt vời gần nhà ga.","Lừa đảo ở Tokyo",0,1792426086298],["商業地域","しょうぎょうちいき","khu thương mại, khu kinh doanh, thương mại","駅前 320平米 商業地域","Vâng. Rộng 320 mét vuông và trong khu thương mại cạnh nhà ga.","Lừa đảo ở Tokyo",0,1792426065105],["仲介業","ちゅうかいぎょう","môi giới, trung gian, công ty môi giới","不動産の仲介業をしている男でした","Nhưng gã đó là một nhà môi giới bất động sản.","Lừa đảo ở Tokyo",0,1792426002492],["ケロイド","けろいど","sẹo lồi, vết sẹo lồi, sẹo phì đại","ケロイドって言うんでしょ そういうの","- Sao? - Mớ sẹo đó gọi là keloid mà?","Lừa đảo ở Tokyo",0,1792425663880],["便所","べんじょ","nhà vệ sinh, toilet, phòng vệ sinh","キッチンでも 便所掃除でも いいじゃん","Chỉ cần giữ anh ấy tránh xa khách. Làm ở bếp hay dọn nhà vệ sinh.","Lừa đảo ở Tokyo",0,1792425562933],["特殊メイク","とくしゅめいく","đặc biệt, riêng, chuyên","特殊メイクっていうの？ ああいうの できるかな？","Anh có thể hóa trang tạo hình không?","Lừa đảo ở Tokyo",0,1792425295015],["ホスト","ほすと","người dẫn chương trình, chủ nhà, host","いや 実はさ ホストになろうと思って","Tôi đang nghĩ đến việc trở thành một tiếp viên.","Lừa đảo ở Tokyo",0,1792425249289],["巻き添え","まきぞえ","liên lụy, dính líu, hệ lụy","それと５歳の息子が巻き添えで死亡","Vợ ông ấy, cùng vợ và con trai năm tuổi của Takumi bị cuốn vào và chết.","Lừa đảo ở Tokyo",0,1792425060296],["焼身自殺","しょうしんじさつ","tự thiêu, đốt mình, hành động tự thiêu","それを苦にした 父の正海が焼身自殺を図り","và Masami đã cố tự thiêu vì tuyệt vọng.","Lừa đảo ở Tokyo",0,1792424966592],["ハンティング","はんてぃんぐ","săn bắn, Săn bắn, cuộc săn","そんな ハンティングと ちゃうねんで","Làm ơn đi. Nó đâu giống đi săn.","Lừa đảo ở Tokyo",0,1792424864543],["ハウスメーカー","はうすめーかー","nhà, ngôi nhà, nhà sản xuất nhà ở","でも ハウスメーカーって イメージだけどねえ","Sekiyo lớn đấy, nhưng tôi thấy họ giống công ty xây nhà ở hơn.","Lừa đảo ở Tokyo",0,1792424778589],["数十","すうじゅう","hàng chục, vài chục, mấy chục","数十億規模の開発が","Dự án phát triển có giá hàng tỷ yên của họ bỗng dừng lại","Lừa đảo ở Tokyo",0,1792424755346],["地上げ","じあげ","san lấp mặt bằng, bồi thường đất đai, thu hồi đất","昔 ちょっと 地上げでツルんでた⸺","Tôi từng làm mấy vụ dọa nạt ép bán đất với một ông già tên Hayashi.","Lừa đảo ở Tokyo",0,1792424668908],["釣り針","つりばり","lưỡi câu, móc câu, cần câu","釣り針がデカすぎるんか こっちも なかなか…","Nhưng chưa có cá cắn câu, có lẽ vì mồi quá lớn.","Lừa đảo ở Tokyo",0,1792424644424],["品性","ひんせい","nhân cách, phẩm hạnh, đạo đức","尼僧になりきれる度胸と 相手を納得させる品性です","mà là có gan cư xử đúng như một ni cô và có thể thuyết phục người mua.","Lừa đảo ở Tokyo",0,1792340471789],["キャスティング","きゃすてぃんぐ","dàn diễn viên, tuyển chọn, phân vai","引き続き なりすましの キャスティングを進めてください","Xin hãy tiếp tục tuyển ứng viên cho kẻ mạo danh.","Lừa đảo ở Tokyo",0,1792340428858],["なりすます","なりすます","mạo danh, giả mạo, giả danh","引き続き なりすましの キャスティングを進めてください","Xin hãy tiếp tục tuyển ứng viên cho kẻ mạo danh.","Lừa đảo ở Tokyo",0,1792340415701],["生命線","せいめいせん","đường sinh mệnh, đường đời, sự sống còn","なりすましは ワシらの最後の生命線や","Cô biết kẻ mạo danh là cứu cánh cuối cùng cho ta ra sao mà.","Lừa đảo ở Tokyo",0,1792339565895],["ハードル","はーどる","rào cản, chướng ngại vật, vượt rào","髪剃(そ)るっていう条件だけでも ハードル高いのにさあ","Thật vô vọng! Không thể nào tìm ra ai sẵn lòng cạo đầu!","Lừa đảo ở Tokyo",0,1792339530649],["ネタ切れ","ねたぎれ","hết ý tưởng, cạn ý tưởng, hết ý","これでもう20人？　30人？ いい加減ネタ切れなん…","Thôi nào! Tôi đã đưa vào 20 hay 30…","Lừa đảo ở Tokyo",0,1792339479506],["マル秘","まるひ","bí mật, tuyệt mật, mật","尼ちゃんの マル秘プライベートビデオやて","Không. Đây là cuộn phim nóng bí mật của tiểu ni cô.","Lừa đảo ở Tokyo",0,1792339298571],["えげつない","えげつない","tàn nhẫn, tàn bạo, dã man","えげつないわあ","Đúng là đồ khốn mà.","Lừa đảo ở Tokyo",0,1792339225087],["抱く","いだく","ôm, bế, cái ôm","簡単に抱かへんことで 値打ちこいとるんやろ","Rất có thể hắn đang cố làm giá bằng cách không để cô ta dễ có mình.","Lừa đảo ở Tokyo",0,1792339164642],["来る","くる","yêu, thích, mong muốn","簡単に抱かへんことで 値打ちこいとるんやろ","Rất có thể hắn đang cố làm giá bằng cách không để cô ta dễ có mình.","Lừa đảo ở Tokyo",0,1792339159204],["ダビング","だびんぐ","lồng tiếng, ghi âm, chép lại","あとでダビングして これ","Chép cho tôi một bản nhé?","Lừa đảo ở Tokyo",0,1792336626545],["仕込む","しこむ","chuẩn bị, làm, sắp đặt","ルームサービスのワゴンに カメラを仕込んだんです","Tôi giấu máy quay trên xe đẩy phục vụ phòng.","Lừa đảo ở Tokyo",0,1792336606874],["色狂い","いろぐるい","người nghiện tình dục, cuồng dâm, kẻ cuồng dâm","結局 夫婦そろって 色狂いやったんかいな","Vậy là cả chồng và vợ đều cuồng tình dục à?","Lừa đảo ở Tokyo",0,1792336520385],["ド変態","どへんたい","biến thái, kẻ biến thái, yêu râu xanh","なんや これ ド変態の尼ちゃんやないかい","Cái quái gì đây? Tiểu ni cô của ta có gu siêu mặn.","Lừa đảo ở Tokyo",0,1792336414640],["謄本","とうほん","bản sao, bản sao y, bản sao lục","で 原口 それと山内は 謄本…","- Vậy Haraguchi và Yamauchi. - Vâng. Lấy đơn đăng ký nhà đất…","Lừa đảo ở Tokyo",0,1792336341570],["近隣","きんりん","hàng xóm, vùng lân cận, khu vực lân cận","近隣との関係も持ちたがらず 家に こもりっきりみたいで…","Có vẻ cô ấy tránh né hàng xóm và sống khép kín trong nhà.","Lừa đảo ở Tokyo",0,1792336271449],["住職","じゅうしょく","trụ trì, hòa thượng, thượng tọa","あの寺の住職の女性が 持ち主です","Cô ta là trụ trì sống trong ngôi chùa đó.","Lừa đảo ở Tokyo",0,1792336244662],["持ち主","もちぬし","chủ sở hữu, người sở hữu, chủ nhân","持ち主が まったく売る気がないと","Nhưng người đó không có hứng thú bán nó.","Lừa đảo ở Tokyo",0,1792336208453],["好条件","こうじょうけん","Điều kiện tốt, Điều kiện thuận lợi, Ưu đãi","いや あの もちろん こんな好条件の土地なので","Dĩ nhiên là khu này có lợi thế, nhiều nhà phát triển đã tiếp cận chủ đất.","Lừa đảo ở Tokyo",0,1792336180344],["坪単価","つぼたんか","giá mỗi mét vuông, giá theo mét vuông, theo mét vuông","坪単価は1200万前後","Mỗi tsubo khoảng 12 triệu,","Lừa đảo ở Tokyo",0,1792336086426],["容積率","ようせきりつ","hệ số sử dụng đất, tỷ lệ diện tích sàn, mật độ xây dựng","容積率600％の商業地域","Đây là khu thương mại với hệ số sử dụng đất là 600%.","Lừa đảo ở Tokyo",0,1792336071782],["仕立て上げる","したてあげる","dựng lên, hoàn thành, làm xong","派閥争いに仕立て上げるのが 好きな連中が多いからな","nói ai phe chủ tịch và ai phe tổng giám đốc.","Lừa đảo ở Tokyo",0,1792335813145],["派閥","はばつ","phe phái, phe cánh, bè phái","派閥争いに仕立て上げるのが 好きな連中が多いからな","nói ai phe chủ tịch và ai phe tổng giám đốc.","Lừa đảo ở Tokyo",0,1792335801575],["鋭意","えいい","hết sức, cật lực, quyết tâm","はい　鋭意リサーチ中でして…","Dạ, chúng tôi đang cố hết sức để tìm ạ.","Lừa đảo ở Tokyo",0,1792335739877],["リサーチ","りさーち","nghiên cứu, đang nghiên cứu, đang tìm hiểu","はい　鋭意リサーチ中でして…","Dạ, chúng tôi đang cố hết sức để tìm ạ.","Lừa đảo ở Tokyo",0,1792335731851],["殺処分","さつしょぶん","tiêu hủy, sự tiêu hủy, thủ tiêu","昔 知り合った動物病院の先生 絶対 殺処分にはさせない","Một bác sĩ thú y tôi gặp từ lâu rồi. Tôi không để lũ mèo con bị giết đâu.","Lừa đảo ở Tokyo",0,1792170030535],["ブローカー","ぶろーかー","người môi giới, môi giới, cò","ヤバいペットブローカーとか じゃないよね","Không phải cò thú cưng mờ ám chứ?","Lừa đảo ở Tokyo",0,1792169997966],["反社","はんしゃ","tổ chức tội phạm, phản động, thế lực thù địch","クソッ 反社には 泊まる部屋もねえのかよ","Khỉ thật, họ không cho xã hội đen thuê phòng à?","Lừa đảo ở Tokyo",0,1792169815331],["サプライズ","さぷらいず","bất ngờ, sự ngạc nhiên, gây bất ngờ","今日 ここで食事するんですけど サプライズしたくて","Hôm nay chúng tôi đến ăn tối, tôi muốn cô ấy bất ngờ.","Lừa đảo ở Tokyo",0,1792169674859],["鑑みる","かんがみる","xem xét, cân nhắc, tham khảo","今までのお前の功績を鑑みて 上も許してくれるだろ","Cấp trên sẽ tha thứ cho khoản lỗ đó khi xét thành tích của anh cho đến nay.","Lừa đảo ở Tokyo",0,1792169411368],["功績","こうせき","thành tích, thành tựu, công lao","今までのお前の功績を鑑みて 上も許してくれるだろ","Cấp trên sẽ tha thứ cho khoản lỗ đó khi xét thành tích của anh cho đến nay.","Lừa đảo ở Tokyo",0,1792169407899],["ペナルティ","ぺなるてぃ","hình phạt, phạt, sự trừng phạt","それぐらいのペナルティだったら","Cấp trên sẽ tha thứ cho khoản lỗ đó khi xét thành tích của anh cho đến nay.","Lừa đảo ở Tokyo",0,1792169379217],["地上げ屋","じあげや","bè phái đòi nợ thuê, kẻ đòi nợ thuê, tay đòi nợ thuê","今どき 地上げ屋が持ってる 土地なんて 扱えるわけないだろ？","Dạo này đâu thể nào xử lý đất từ trùm nhà đất.","Lừa đảo ở Tokyo",0,1792169323480],["不届き者","ふとどきもの","kẻ vô lại, vô lễ, kẻ bất lịch sự","恨み言を垂れる 不届き者もいるようなので","vài kẻ vô lại sẽ nói mấy lời oán hận giống như vậy, nên cẩn thận nhé, Aoyagi.","Lừa đảo ở Tokyo",0,1792169140156],["垂れる","たれる","rủ xuống, chảy, nhỏ giọt","恨み言を垂れる 不届き者もいるようなので","vài kẻ vô lại sẽ nói mấy lời oán hận giống như vậy, nên cẩn thận nhé, Aoyagi.","Lừa đảo ở Tokyo",0,1792169132726],["恨み言","うらみごと","lời trách móc, lời oán giận, lời than vãn","恨み言を垂れる 不届き者もいるようなので","vài kẻ vô lại sẽ nói mấy lời oán hận giống như vậy, nên cẩn thận nhé, Aoyagi.","Lừa đảo ở Tokyo",0,1792169128912],["尻尾","しっぽ","đuôi, cái đuôi, đuôi con vật","トカゲの尻尾を切るような まねしたの忘れたのか テメエ","Mọi thứ tệ đi và anh quên anh đã rũ bỏ tôi như thằn lằn đứt đuôi ra sao à?","Lừa đảo ở Tokyo",0,1792169033142],["トカゲ","とかげ","thằn lằn, thạch sùng, bò cạp","トカゲの尻尾を切るような まねしたの忘れたのか テメエ","Mọi thứ tệ đi và anh quên anh đã rũ bỏ tôi như thằn lằn đứt đuôi ra sao à?","Lừa đảo ở Tokyo",0,1792169029308],["ポシャる","ぽしゃる","thất bại, hỏng, tan thành mây khói","ポシャったそうですねえ","Giao dịch thất bại rồi nhỉ?","Lừa đảo ở Tokyo",0,1792168945201],["尼","あま","ni cô, niichan, chị gái","尼ちゃんが寝たあとも ずっと見張ってるんすよ","Anh ấy nghiêm túc lắm, tiểu ni cô đi ngủ vẫn canh.","Lừa đảo ở Tokyo",0,1792168292373],["敷地内","しきちない","khuôn viên, diện tích, khu đất","敷地内にある自宅で過ごす","và ở nhà cho đến hết ngày.","Lừa đảo ở Tokyo",0,1792168210279],["山門","さんもん","cổng chùa, cổng thiền, cổng tam quan","夕方の読経を済ませたら 山門を閉めて","Cô ta đóng cổng chính sau khi tụng kinh buổi tối","Lừa đảo ở Tokyo",0,1792168189063],["下っ端","したっぱ","cấp dưới, hạ cấp, lính quèn","竹下さん 俺らみたいな下っ端には 全然くれないんすよ","Đám tay chân như tôi gần như không được Takeshita cho gì.","Lừa đảo ở Tokyo",0,1792167988079],["サイコパス","さいこぱす","kẻ tâm thần, người tâm thần, bệnh nhân tâm thần","死ね！　サイコパス野郎！","Chết đi, đồ tâm thần!","Lừa đảo ở Tokyo",0,1792167881764],["人でなし","ひとでなし","đồ vô nhân đạo, kẻ vô lương tâm, đồ tồi","この人でなし！","Đồ súc sinh!","Lừa đảo ở Tokyo",0,1792167858651],["言いつける","いいつける","mách, ra lệnh, báo cáo","絶対 店に言いつけてやるからな！","Tôi sẽ báo cáo hắn với dịch vụ!","Lừa đảo ở Tokyo",0,1792167830567],["跡形","あとかた","dấu vết, tàn tích, vết tích","この死体は跡形もなく処理されます","và thi thể sẽ được xử lý sạch sẽ.","Lừa đảo ở Tokyo",0,1792167538861],["慈悲","じひ","từ bi, lòng từ bi, bi mẫn","この申し出は あなたへの慈悲の気持ちです","Tôi đề nghị thế vì muốn nhân từ với cậu.","Lừa đảo ở Tokyo",0,1792167439905],["日陰","ひかげ","bóng râm, chỗ râm, vùng bóng râm","このまま社会の日陰で 一生を終えるつもりだった","Tôi đã định sống phần đời còn lại trong mặt tối của xã hội.","Lừa đảo ở Tokyo",0,1792167180874],["送迎","そうげい","đưa đón, tiễn và đón, chuyển đi và đến","高級デリヘル嬢の送迎をしていた","và bắt đầu chở gái gọi cao cấp.","Lừa đảo ở Tokyo",0,1792166980657],["デリヘル嬢","でりへるじょう","gái gọi, gái mại dâm, người bán dâm","高級デリヘル嬢の送迎をしていた","và bắt đầu chở gái gọi cao cấp.","Lừa đảo ở Tokyo",0,1792166947387],["シャブ中","しゃぶちゅう","kẻ nghiện ma túy, con nghiện, nghiện ma túy","どうってことねえっすよ あんなシャブ中","Tôi không sợ tên nghiện đó!","Lừa đảo ở Tokyo",0,1792166374196],["読経","どきょう","đọc kinh, tụng kinh, niệm kinh","朝の５時から本堂で読経","Tụng kinh từ năm giờ sáng ở sảnh chính","Lừa đảo ở Tokyo",0,1792166229380],["本堂","ほんどう","chính điện, đại điện, tự đường","朝の５時から本堂で読経","Tụng kinh từ năm giờ sáng ở sảnh chính","Lừa đảo ở Tokyo",0,1792166226772],["司法書士","しほうしょし","công chứng viên, thừa phát lại, chuyên viên pháp lý","こいつはね もともと 優秀な司法書士なんですよ","Ban đầu, hắn là một thư ký tư pháp xuất sắc.","Lừa đảo ở Tokyo",0,1792081632580],["ありとあらゆる","ありとあらゆる","tất cả, mọi, vô số","ヤツらは ありとあらゆる 不動産取引に関する⸺","Chúng thông thạo mọi luật lệ và quy định về bất động sản.","Lừa đảo ở Tokyo",0,1792081567217],["取り引き","とりひき","giao dịch, buôn bán, thương vụ","取り引きをする過程で会ったのは ３人だけじゃないですよね？","Lúc giao dịch, anh đâu chỉ gặp ba người này nhỉ?","Lừa đảo ở Tokyo",0,1792081275794],["過程","かてい","quá trình, giai đoạn, quy trình","取り引きをする過程で会ったのは ３人だけじゃないですよね？","Lúc giao dịch, anh đâu chỉ gặp ba người này nhỉ?","Lừa đảo ở Tokyo",0,1792081271353],["仲介業者","ちゅうかいぎょうしゃ","môi giới, trung gian, bên trung gian","仲介業者の中年男性 ということですね？","và một gã trung niên đóng vai kẻ môi giới, đúng chứ?","Lừa đảo ở Tokyo",0,1792081085879],["ツッコむ","つっこむ","chọc, đâm, nhét","いやいやいや 俺が 首ツッコむってんじゃないんだ","Tôi không cố chõ mũi vào cuộc điều tra.","Lừa đảo ở Tokyo",0,1792080898408],["一筋","ひとすじ","chuyên tâm, một lòng, kiên trì","悪かったな 俺は 二課一筋なんだよ","Xin lỗi. Tôi đã ở Phòng Số Hai suốt cả sự nghiệp.","Lừa đảo ở Tokyo",0,1792080517342],["立てこもり","たてこもり","bao vây, chiếm giữ, cầm giữ","殺人 強盗 誘拐 立てこもり","Giết người, cướp của, bắt cóc, giữ con tin…","Lừa đảo ở Tokyo",0,1792080480679],["コンビ","こんび","đôi, cặp đôi, bộ đôi","あれだよ　ほら一応 コンビを組むわけだからさ","Chỉ là tạm thời, ta sẽ là cộng sự, nên…","Lừa đảo ở Tokyo",0,1792080356183],["並行","へいこう","song song, song hành, song song với","では 倉持の指導と並行して 引き続き 捜査をお願いします","Ngoài việc hướng dẫn Kuramochi, xin hãy tiếp tục điều tra.","Lừa đảo ở Tokyo",0,1792079747868],["着任","ちゃくにん","nhậm chức, đến nhận công tác, đến nhiệm sở","本日着任の倉持です","Đây là Kuramochi, giữ chức này từ hôm nay.","Lừa đảo ở Tokyo",0,1792079457129],["未練","みれん","luyến tiếc, tiếc nuối, vương vấn","これで 未練なく あとを任せることができそうです","Giờ tôi có thể để nó cho những người khác mà không hối tiếc.","Lừa đảo ở Tokyo",0,1792079323265],["再任","さいにん","tái bổ nhiệm, tái cử, tái nhiệm","例の再任用の件ですが…","Chuyện phục chức cho anh…","Lừa đảo ở Tokyo",0,1792079286695],["緻密","ちみつ","tỉ mỉ, tinh vi, chi tiết","緻密かつ高度な 犯罪テクニックが必要とされる","Chúng yêu cầu các kỹ thuật phạm tội chính xác và rất tiên tiến.","Lừa đảo ở Tokyo",0,1791909899153],["情報屋","じょうほうや","người cung cấp thông tin, tình báo, gián điệp","地面師詐欺は リーダー 交渉役 情報屋","Kiểu lừa đảo này do một nhóm gồm một thủ lĩnh, một kẻ đàm phán, một kẻ chỉ điểm,","Lừa đảo ở Tokyo",0,1791906916926],["表面化","ひょうめんか","nổi lên, bị lộ ra, hiện rõ","表面化しにくい土地を中心に","lừa đảo nhà đất bắt đầu tăng lại","Lừa đảo ở Tokyo",0,1791906873854],["招致","しょうち","sự mời gọi, sự triệu tập, sự chiêu đãi","東京オリンピック招致決定を機に 土地の価格が上昇し","Tokyo được chọn đăng cai tổ chức Olympic, dẫn đến giá đất tăng.","Lừa đảo ở Tokyo",0,1791906822594],["鎮静化","ちんせいか","đã bình ổn, đã dịu đi, đã lắng xuống","他人のなりすましが困難になり 鎮静化したように見えた","làm bọn lừa đảo khó trộm danh tính hơn. Lừa đảo nhà đất có vẻ bớt đi.","Lừa đảo ở Tokyo",0,1791906754666],["多発","たはつ","sự xảy ra nhiều lần, tái phát, phát sinh nhiều lần","土地の価格が高騰し 都市部を中心に多発","giá bất động sản tăng vọt và lừa đảo nhà đất thường có ở đô thị.","Lừa đảo ở Tokyo",0,1791906408197],["高騰","こうとう","sự tăng giá, sự leo thang, sự tăng vọt","土地の価格が高騰し 都市部を中心に多発","giá bất động sản tăng vọt và lừa đảo nhà đất thường có ở đô thị.","Lừa đảo ở Tokyo",0,1791906399450],["混沌","こんとん","hỗn độn, hỗn mang, vô định","地面師詐欺は 戦後間もない混沌とした社会情勢や","Lừa đảo nhà đất xảy ra trên khắp Nhật Bản ở thời hậu chiến","Lừa đảo ở Tokyo",0,1791906337087],["多額","たがく","số tiền lớn, khoản tiền lớn, lượng lớn","偽造書類を使って 多額の金をだまし取る⸺","và giả làm những chủ đất muốn bán đất của mình.","Lừa đảo ở Tokyo",0,1791906275488],["偽造","ぎぞう","giả mạo, làm giả, bị làm giả","偽造書類を使って 多額の金をだまし取る⸺","và giả làm những chủ đất muốn bán đất của mình.","Lừa đảo ở Tokyo",0,1791906263004],["狂わせる","くるわせる","làm điên đảo, làm loạn, gây rối","あなたの人生を狂わせた詐欺師 それが地面師です","Tên lừa đảo đã hủy hoại cuộc đời cậu là một kẻ lừa đảo nhà đất.","Lừa đảo ở Tokyo",0,1791906173519],["地面師","じめんし","kẻ lừa đảo bất động sản, trùm lừa đảo đất đai, người quản lý mặt đất","地面師になりませんか？","Làm một kẻ lừa đảo nhà đất?","Lừa đảo ở Tokyo",0,1791906046129],["エクスタシー","えくすたしー","cực khoái, thăng hoa, phê","あの時のエクスタシーが 忘れられないのかもしれません","Có lẽ tôi chỉ là không quên được cảm giác đê mê mà mình trải qua lúc đó.","Lừa đảo ở Tokyo",0,1791906003309],["無惨","むざん","tàn khốc, bi thảm, thê thảm","一瞬で無惨な姿になり 死んでいったんです","Nhưng trong chớp mắt, nó trở nên xấu xí, khốn khổ và gục chết.","Lừa đảo ở Tokyo",0,1791905957234],["バッタリ","ばったり","tình cờ gặp, bất ngờ gặp, ngã lăn quay","えっ その辺で バッタリ会ったりとかは？","Cũng không tình cờ gặp trên phố sao?","Đoàn tụ ~Sự thật thầm lặng~",0,1791905274057],["非番","ひばん","ngày nghỉ, trực ngoài giờ, trực ngoài ca","僕 非番なんですけど","Tôi đang nghỉ phép mà.","Đoàn tụ ~Sự thật thầm lặng~",0,1791904944653],["封印","ふういん","niêm phong, phong ấn, bịt kín","未来につながることのない タイムカプセルに封印した","được niêm phong trong chiếc hộp thời gian sẽ không bao giờ bị mở ra trong tương lai.","Đoàn tụ ~Sự thật thầm lặng~",0,1791904652491],["タイムカプセル","たいむかぷせる","thời gian nang, hộp thời gian","未来につながることのない タイムカプセルに封印した","được niêm phong trong chiếc hộp thời gian sẽ không bao giờ bị mở ra trong tương lai.","Đoàn tụ ~Sự thật thầm lặng~",0,1791904649642],["ふざける","ふざける","đùa cợt, trêu chọc, nghịch ngợm","淳一が ふざけるからでしょう！","Do cậu lo giỡn đấy.","Đoàn tụ ~Sự thật thầm lặng~",0,1791904556894],["強盗","ごうとう","tên cướp, kẻ cướp, sự cướp bóc","逃げてるんでしょう 銀行強盗 拳銃持って","Kẻ đang chạy trốn ấy. Tên cướp ngân hàng có súng.","Đoàn tụ ~Sự thật thầm lặng~",0,1791904453890],["拳銃","けんじゅう","súng ngắn, súng lục, cò","逃げてるんでしょう 銀行強盗 拳銃持って","Kẻ đang chạy trốn ấy. Tên cướp ngân hàng có súng.","Đoàn tụ ~Sự thật thầm lặng~",0,1791904449278],["グッパー","ぐっぱー","oẳn tù tì, kéo búa bao, người cào cấu","（万季子）う～ん… グッパーで決めよう","CẤM VÀO Kéo, búa, bao đi.","Đoàn tụ ~Sự thật thầm lặng~",0,1791904379419],["虫籠","むしかご","lồng nhốt côn trùng, hộp đựng côn trùng, lồng côn trùng","（淳一）虫カゴ ちっちゃい ちっちゃい","Lồng côn trùng của cậu nhỏ quá.","Đoàn tụ ~Sự thật thầm lặng~",0,1791904264646],["遠距離","えんきょり","khoảng cách xa, tầm xa, xa","捨ててません 勝太郎さんとは遠距離です","Em đâu có. Em với Shotaro đang yêu xa.","Nhật ký trung học",0,1791824934721],["執る","とる","đã thực hiện, đã tiến hành, việc thực hiện","小学校 中学校で 教べんを執りました","cô đã làm giáo viên thời vụ hai năm ở các trường tiểu học và cấp hai.","Nhật ký trung học",0,1791824893865],["教べん","きょうべん","bài học, bài học kinh nghiệm, bài học đường đời","小学校 中学校で 教べんを執りました","cô đã làm giáo viên thời vụ hai năm ở các trường tiểu học và cấp hai.","Nhật ký trung học",0,1791824881524],["空回り","からまわり","vô ích, công cốc, không hiệu quả","（千鶴）私が面倒見た実習生の中で 一番やる気 空回りしてたから","Trong số các thực tập sinh chị hướng dẫn, em là thiếu nhiệt huyết nhất.","Nhật ký trung học",0,1791824811829],["ソーシャルスキル","そーしゃるすきる","kỹ năng xã hội, Kỹ năng xã hội","ソーシャルスキルトレーニングを 学んでもらいます","Cô sẽ gửi em đến lớp đào tạo kỹ năng xã hội.","Nhật ký trung học",0,1791824717157],["生徒指導","せいとしどう","giáo dục học sinh, hướng dẫn học sinh, kỷ luật học sinh","（聖）そのウソ 不謹慎ですね 生徒指導の対象とします","Nói dối kiểu đó là không được. - Em sẽ bị phạt. - Sao cơ?","Nhật ký trung học",0,1791824677835],["不謹慎","ふきんしん","vô lễ, không đứng đắn, thiếu thận trọng","（聖）そのウソ 不謹慎ですね 生徒指導の対象とします","Nói dối kiểu đó là không được. - Em sẽ bị phạt. - Sao cơ?","Nhật ký trung học",0,1791824652152],["校務員","こうむいん","nhân viên bảo trì, nhân viên vệ sinh, người làm công","亡くなった校務員さんがいたなんて","một công nhân đã thiệt mạng khi thiên thạch rơi từ trên trời xuống.","Nhật ký trung học",0,1791824504506],["隕石","いんせき","thiên thạch, sao băng, mảnh thiên thạch","空から落ちてきた 隕石にぶつかって","một công nhân đã thiệt mạng khi thiên thạch rơi từ trên trời xuống.","Nhật ký trung học",0,1791824486968],["黙とう","もくとう","mặc niệm, đứng im lặng, tưởng niệm","（聖）１分間の黙とう","Một phút mặc niệm bắt đầu.","Nhật ký trung học",0,1791824446685],["突拍子","とっぴょうし","bất ngờ, đột ngột, không ngờ tới","（みくり） 突拍子もなく話 もってくよね～","Bố toàn nói bừa như thế thôi.","Trốn thì ngại mà thôi cũng kệ",0,1791824072126],["通販","つうはん","mua sắm trực tuyến, thương mại điện tử, bán hàng qua thư","お姉ちゃん 通販 好きよね","Bác con thích mua sắm trên mạng mà.","Trốn thì ngại mà thôi cũng kệ",0,1791824033192],["侮る","あなどる","khinh miệt, coi thường, xem thường","宗教を超えるサンタパワー 侮れないわ","Chớ xem thường Ông già Tuyết, ông ấy vượt lên tôn giáo.","Trốn thì ngại mà thôi cũng kệ",0,1791823971542],["押し寄せる","おしよせる","tràn tới, xô đẩy, ồ ạt","ザザーッと 押し寄せてたわけなんだけど","Ma-rốc cũng bị ảnh hưởng không kém bởi cơn sốt Giáng sinh.","Trốn thì ngại mà thôi cũng kệ",0,1791823947869],["黙秘権","もくひけん","quyền im lặng, quyền giữ im lặng","あなたには黙秘権といって","Anh có quyền giữ im lặng nếu không muốn nói.","Vận mệnh",0,1791823241843],["衝動的","しょうどうてき","bốc đồng, hấp tấp, nông nổi","衝動的に声をかけてました","Thế là tôi đã bốc đồng bắt chuyện với cô.","Lời thú nhận: Bí mật 25 năm",0,1791737025515],["幻覚","げんかく","ảo giác, hoang tưởng, Ảo giác","僕は ついに 幻覚を見るようになったのか","Cuối cùng mình cũng gặp ảo giác rồi à?","Lời thú nhận: Bí mật 25 năm",0,1791736421811],["前世","ぜんせい","kiếp trước, tiền kiếp, kiếp xưa","前世で住んでたのかなって","Như thể kiếp trước cháu đã sống ở đây ấy.","Lời thú nhận: Bí mật 25 năm",0,1791736152998],["カウントダウン","かうんとだうん","đếm ngược, sự đếm ngược, bước đếm ngược","心で カウントダウンが 始まっちゃうんだ","Như thể trái tim anh cứ tự động đếm ngược.","Lời thú nhận: Bí mật 25 năm",0,1791735815387],["腫れ物","はれもの","sự sưng, chỗ sưng, khối sưng","そんな腫れ物みたいに… 平気だから","Không cần cư xử như thể tôi mong manh dễ vỡ thế đâu.","Lời thú nhận: Bí mật 25 năm",0,1791735543240],["子煩悩","こぼんのう","yêu con, thương con, cuồng con","私も 結婚するなら 子煩悩な人がいいな","Tôi mà kết hôn thì cũng muốn kiếm được người như vậy.","Lời thú nhận: Bí mật 25 năm",0,1791735458044],["スペシャル","すぺしゃる","đặc biệt, chuyên, riêng","今日は スペシャルなメニュー 用意してますからね","Nào mọi người, hôm nay chúng ta có thực đơn đặc biệt.","Lời thú nhận: Bí mật 25 năm",0,1791735351400],["テクスチャー","てくすちゃー","kết cấu, cấu trúc, bề mặt","（涼子）“テクスチャー 見せて”って来てます","Cho mọi người xem kết cấu nhé.","Lời thú nhận: Bí mật 25 năm",0,1791735307478],["配合","はいごう","phối hợp, kết hợp, sự phối hợp","幹細胞培養上清液(じょうせいえき)やＰＤＲＮを 配合しています","Tinh chất này chứa những thành phần đang rất được ưa chuộng hiện nay, trong đó có dịch nuôi cấy tế bào gốc và PDRN.","Lời thú nhận: Bí mật 25 năm",0,1791735287258],["培養","ばいよう","nuôi cấy, nuôi dưỡng, trồng trọt","幹細胞培養上清液(じょうせいえき)やＰＤＲＮを 配合しています","Tinh chất này chứa những thành phần đang rất được ưa chuộng hiện nay, trong đó có dịch nuôi cấy tế bào gốc và PDRN.","Lời thú nhận: Bí mật 25 năm",0,1791735260766],["幹細胞","かんさいぼう","tế bào gốc","幹細胞培養上清液(じょうせいえき)やＰＤＲＮを 配合しています","Tinh chất này chứa những thành phần đang rất được ưa chuộng hiện nay, trong đó có dịch nuôi cấy tế bào gốc và PDRN.","Lời thú nhận: Bí mật 25 năm",0,1791735253630],["被害届","ひがいとどけ","đơn trình báo thiệt hại, đơn tố giác tội phạm, báo cáo nạn nhân","雪村爽太に被害届を出しますか？","Ông có định trình báo cảnh sát về Yukimura Sota không?","Lời thú nhận: Bí mật 25 năm",0,1791734559316],["預かる","あずかる","trông nom, giữ, tiếp nhận","これ 事件の参考資料として お預かりさせてください","Chúng tôi muốn giữ lại thứ này làm tài liệu tham khảo cho cuộc điều tra.","Lời thú nhận: Bí mật 25 năm",0,1791734499348],["宛てる","あてる","viết cho, gửi cho, gửi","佐倉さんへ宛てたものだと思います","Tôi nghĩ mẹ muốn gửi nó cho anh, Sakura.","Lời thú nhận: Bí mật 25 năm",0,1791733541082],["遺品","いひん","di vật, tài sản để lại, đồ dùng cá nhân","母の遺品の中にあったんです","Đây, tôi tìm thấy thứ này trong đống đồ đạc của mẹ tôi.","Lời thú nhận: Bí mật 25 năm",0,1791733513157],["気さく","きさく","cởi mở, dễ gần, thân mật","僕が見てきた恭子さんは とても明るくて 気さくな人でした","cô Kyoko mà tôi biết là một người cực kỳ rạng rỡ và thân thiện.","Lời thú nhận: Bí mật 25 năm",0,1791731764845],["心変わり","こころがわり","thay đổi ý định, thay lòng đổi dạ, đổi ý","なんで突然 心変わりしたのか 分からなくて…","Tôi không hiểu tại sao cô ấy đột nhiên đổi ý.","Lời thú nhận: Bí mật 25 năm",0,1791731305718],["前妻","ぜんさい","vợ cũ, vợ trước, Vợ cũ","社長の前妻の恭子さんには⸺","Tôi nghe nói vợ trước của chủ tịch công ty, cô Kyoko,","Lời thú nhận: Bí mật 25 năm",0,1791728971863],["タイアップ","たいあっぷ","hợp tác, liên kết, kết hợp","働いて タイアップを得た証拠を つかんでいます","Tôi có bằng chứng cho thấy ông đã gian lận để có được hợp đồng đó.","Lời thú nhận: Bí mật 25 năm",0,1791728897356],["もったいぶる","もったいぶる","làm bộ, kiêu căng, tự cao tự đại","もったいぶった言い方をして","giữa tôi và Kyoko.","Lời thú nhận: Bí mật 25 năm",0,1791728829214],["素性","そせい","lý lịch, lai lịch, xuất thân","（泰輔）自分の素性を 明かさないくせに⸺","Hắn không chịu tiết lộ danh tính","Lời thú nhận: Bí mật 25 năm",0,1791728778738],["打ち切る","うちきる","chấm dứt, dừng lại, hủy bỏ","捜査を打ち切らせたってこと？","Cuộc điều tra? Bố yêu cầu họ dừng lại sao?","Lời thú nhận: Bí mật 25 năm",0,1791728184648],["長引く","ながびく","kéo dài, trì hoãn, chậm trễ","これ以上 捜査を長引かせないでほしい","Bố không muốn để cuộc điều tra kéo dài thêm.","Lời thú nhận: Bí mật 25 năm",0,1791728123006],["ヘラヘラ","へらへら","cười toe toét, cười khúc khích, cười giả lả","ずっと バレないように ヘラヘラしてただけ","Tôi luôn tươi cười nhã nhặn để không ai nhận ra thôi.","Lời thú nhận: Bí mật 25 năm",0,1791726188604],["込み上げる","こみあげる","trào dâng, nổi lên, dâng lên","感じたことない怒りが 込み上げてきて","một cơn thịnh nộ chưa từng có bất ngờ xâm chiếm tôi.","Lời thú nhận: Bí mật 25 năm",0,1791726023982],["尽かす","つかす","cạn kiệt, làm cạn, hết","愛想尽かされてもいいようなこと 知られてんのに","cậu biết những chuyện lẽ ra phải khiến cậu bỏ mặc tôi từ lâu,","Lời thú nhận: Bí mật 25 năm",0,1791724778950],["まっとう","まっとう","chính đáng, đúng đắn, hoàn thành","僕なんかより 全然 人として真っ当だし","So với tôi thì cậu tốt hơn nhiều lắm.","Lời thú nhận: Bí mật 25 năm",0,1791724648884],["決着","けっちゃく","kết thúc, quyết định, giải quyết","そろそろ決着つけようぜ","Sao không giải quyết chuyện này cho xong luôn đi?","Lời thú nhận: Bí mật 25 năm",0,1791723782583],["折り合い","おりあい","sự dàn xếp, sự thỏa hiệp, sự hòa giải","ようやく この年になって 折り合いがついて","tôi đã chấp nhận sự thật con người có nhiều mặt khác nhau.","Lời thú nhận: Bí mật 25 năm",0,1791723417499],["個展","こてん","triển lãm cá nhân, buổi triển lãm cá nhân, Triển lãm cá nhân","（麻里子）個展に行かないかって 誘われてるんです","Tôi được mời đi xem một triển lãm nghệ thuật.","Lời thú nhận: Bí mật 25 năm",0,1791722987584],["グチグチ","ぐちぐち","lải nhải, càm ràm, cằn nhằn","グチグチ…","Cô mà cũng nói vậy.","Lời thú nhận: Bí mật 25 năm",0,1791722846848],["自炊","じすい","tự nấu ăn, tự làm đồ ăn, nấu ăn tại nhà","麻里子さんって ふだんは自炊派ですか？","- Mariko, ở nhà cô có hay nấu ăn… - Này!","Lời thú nhận: Bí mật 25 năm",0,1791722468346],["執念","しゅうねん","sự ám ảnh, lòng cố chấp, sự kiên trì cực đoan","畑野は 誰かへの恨みとか 執念みたいなもので⸺","Nếu Hatano lấy thù hận hay chấp niệm làm chỗ dựa,","Lời thú nhận: Bí mật 25 năm",0,1791722301816],["無心","むしん","vô tư, vô tâm, không có tâm","金を無心されるんじゃないかと 思ってしまって…","Bố lập tức nghĩ rằng cậu ta định đến xin tiền.","Lời thú nhận: Bí mật 25 năm",0,1791721743665],["遭う","あう","gặp, trải qua, bị","２人を危険な目に 遭わせてしまって…","tôi đã khiến cả hai người gặp nguy hiểm.","Lời thú nhận: Bí mật 25 năm",0,1791721568165],["野放し","のばなし","thả rông, buông lỏng, thả lỏng","野放しにしてはいけません","Không thể cứ để kệ anh ta được đâu.","Lời thú nhận: Bí mật 25 năm",0,1791721472498],["メンタル","めんたる","tinh thần, tâm lý, Tâm thần","（涼子） 敵は並のメンタルではないです","Đối thủ của anh kiên trì đến đáng sợ.","Lời thú nhận: Bí mật 25 năm",0,1791721453291],["二股","ふたまた","bắt cá hai tay, lăng nhăng, hai lòng","ふた股は やめたほうがいいですよ 人として","đừng mập mờ với hai anh cùng lúc nữa. Thế là khiếm nhã đấy.","Lời thú nhận: Bí mật 25 năm",0,1791707738926],["手放し","てばなし","buông tay, từ bỏ, thả lỏng","ていうか まだ 手放しに 許したわけじゃないっていうか","Ý tôi là, tôi đâu có nói là đã tha thứ cho anh ấy hay gì đâu.","Lời thú nhận: Bí mật 25 năm",0,1791707694785],["水草","みずくさ","rong, thủy sinh, cây thủy sinh","-（爽太）水草なんで -（麻里子）えっ？","- Chúng không thân thiện lắm đâu. - Hả?","Lời thú nhận: Bí mật 25 năm",0,1791707472493],["境界線","きょうかいせん","đường biên giới, ranh giới, giới hạn","境界線だけは守る男なんで 安心してください","Tôi là người rất coi trọng giới hạn. Cô cứ yên tâm.","Lời thú nhận: Bí mật 25 năm",0,1791707407707],["ぬれぎぬ","ぬれぎぬ","oan ức, vu khống, bị đổ tội oan","いやいや いやいや… ぬれぎぬですよ","Không, không hề. Oan cho tôi rồi.","Lời thú nhận: Bí mật 25 năm",0,1791707335549],["監禁","かんきん","giam cầm, khai trừ, tống giam","この奥の廃工場に 拉致 監禁されました","sau đó bị bắt cóc và giam giữ trái ý muốn.","Lời thú nhận: Bí mật 25 năm",0,1791707083240],["拉致","らち","bắt cóc, bắt giữ, Bắt cóc","この奥の廃工場に 拉致 監禁されました","sau đó bị bắt cóc và giam giữ trái ý muốn.","Lời thú nhận: Bí mật 25 năm",0,1791707074672],["廃工場","はいこうじょう","nhà máy bỏ hoang, xưởng cũ bỏ hoang","この奥の廃工場に 拉致 監禁されました","sau đó bị bắt cóc và giam giữ trái ý muốn.","Lời thú nhận: Bí mật 25 năm",0,1791707068202],["論外","ろんがい","không thể chấp nhận được, không tính, không bàn tới","もはや論外です","không thể dung thứ. Tuyệt đối không thể!","Lời thú nhận: Bí mật 25 năm",0,1791706815175],["待ち伏せ","まちぶせ","phục kích, mai phục, rình rập","待ち伏せする 偶然を装って接触する","rình rập ở đó, hoặc giả vờ tình cờ rồi tiếp cận tôi,","Lời thú nhận: Bí mật 25 năm",0,1791706721514],["装う","よそおう","giả vờ, trang phục, ăn mặc","待ち伏せする 偶然を装って接触する","rình rập ở đó, hoặc giả vờ tình cờ rồi tiếp cận tôi,","Lời thú nhận: Bí mật 25 năm",0,1791706708385],["介錯人","かいしゃくにん","người trợ tử, người hỗ trợ mổ bụng, Người bị thất lạc","切腹を命じられたのに 介錯人(かいしゃくにん)が誰もいなくて⸺","một võ sĩ cấp thấp bị bắt mổ bụng, nhưng chẳng có kẻ giúp sức.","Lời thú nhận: Bí mật 25 năm",0,1791706441720],["切腹","せっぷく","mổ bụng, mổ bụng tự sát, hạ mình","切腹を命じられたのに 介錯人(かいしゃくにん)が誰もいなくて⸺","một võ sĩ cấp thấp bị bắt mổ bụng, nhưng chẳng có kẻ giúp sức.","Lời thú nhận: Bí mật 25 năm",0,1791706384523],["懺悔","ざんげ","ăn năn, sám hối, hối cải","これは 死刑宣告を受ける前の 懺悔(ざんげ)のようなもので","cảm giác chẳng khác nào một lời thú tội trước khi nhận án tử.","Lời thú nhận: Bí mật 25 năm",0,1791706255820],["洗いざらい","あらいざらい","sạch sành sanh, tất cả, hoàn toàn","僕の話せる僕の全てを洗いざらい","Từng chuyện tôi biết, - phơi bày hết trước cô ấy. - Cứu với!","Lời thú nhận: Bí mật 25 năm",0,1791706151526],["出直す","でなおす","làm lại, bắt đầu lại, quay lại","起きるの待ってるか 出直そうか悩んでたら つい…","Tôi không biết nên đợi anh tỉnh hay quay lại sau, và rồi tôi…","Lời thú nhận: Bí mật 25 năm",0,1791706029507],["立ちくらみ","たちくらみ","chóng mặt, choáng váng, hoa mắt","立ちくらみかも","Tôi hơi choáng, chắc là vậy…","Lời thú nhận: Bí mật 25 năm",0,1791705930669],["逃走","とうそう","chạy trốn, bỏ chạy, trốn thoát","（泰輔） 現場から男１名逃走 刃物所持","Một kẻ bỏ trốn khỏi hiện trường, hai nạn nhân.","Lời thú nhận: Bí mật 25 năm",0,1791703908484],["コギャル","こぎゃる","Kogal, gái xinh, gái teen","渋谷(しぶや) 行ったって コギャルはいないし⸺","Ở Shibuya chẳng còn ai theo mốt gyaru.","Lời thú nhận: Bí mật 25 năm",0,1791703373554],["久々","ひさびさ","lâu lắm rồi, đã lâu, một thời gian dài","久々に出てきたら 世の中 すごい変わっちゃっててさ","Sau ngần ấy năm mới được ra ngoài, thế giới đã thay đổi đến mức làm tao choáng ngợp.","Lời thú nhận: Bí mật 25 năm",0,1791703320844],["こじあける","こじあける","cạy mở, bẻ khóa, phá cửa","無理やり こじあけて 乗ってきたときとか？","có người chạy tới, bấm nút để cửa mở ra rồi chen vào.","Lời thú nhận: Bí mật 25 năm",0,1791702925679],["入る","はいる","vào, đi vào, nhập","持ってたエコバッグに 入りきらなくて⸺","cái túi tái sử dụng mà tôi mang theo khi đi siêu thị,","Lời thú nhận: Bí mật 25 năm",0,1791702854705],["バイヤー","ばいやー","Người mua, người mua, Nhà thu mua","あと ＥＣのほうが 次の月曜がバイヤー商談なんで","Còn bên EC thì họ sẽ tiến hành đặt hàng vào thứ Hai tuần sau,","Lời thú nhận: Bí mật 25 năm",0,1791702148160],["配荷","はいか","phân phối hàng, cung cấp hàng, bày hàng","100店舗の配荷を確保できました","Về Kagura, hiện tại ta đã đảm bảo được hệ thống phân phối tại 100 cửa hàng.","Lời thú nhận: Bí mật 25 năm",0,1791702119483],["精査","せいさ","kiểm tra kỹ, rà soát, xem xét kỹ lưỡng","引き続き 精査していきます","Ông ấy sẽ sống thôi.","Lời thú nhận: Bí mật 25 năm",0,1791701688263],["御託","ごたく","lý do, biện bạch, lý lẽ","お前の グダグダ グダグダ うるさい御託 もう聞き飽きた","Tôi phát ngán khi phải nghe mấy lời biện minh dài dòng của cậu rồi.","Lời thú nhận: Bí mật 25 năm",0,1791700979189],["怖い","こわい","sợ, khiếp, hãi","もう 怖がらせたくないの！","- thì cậu còn lại gì chứ? - Tôi không muốn khiến Mariko sợ nữa!","Lời thú nhận: Bí mật 25 năm",0,1791700720891],["収まる","おさまる","ổn định, không vừa, hài lòng","どうせ引いたって 気持ち収まんないくせに","Dù có chùn bước, tình cảm của cậu cũng đâu thể nguôi.","Lời thú nhận: Bí mật 25 năm",0,1791700654603],["まとも","まとも","chính đáng, đàng hoàng, tử tế","なのに なに今更 まともぶってんだよ","Sao giờ tự nhiên lại tỏ vẻ đàng hoàng vậy?","Lời thú nhận: Bí mật 25 năm",0,1791700535134],["ネタ","ねた","chủ đề, chuyện cười, nguyên liệu","俺 すごいネタ仕入れたかも","Tôi có một thông tin cực quan trọng.","Lời thú nhận: Bí mật 25 năm",0,1791700311741],["仕入れる","しいれる","nhập hàng, mua hàng, thu mua","俺 すごいネタ仕入れたかも","Tôi có một thông tin cực quan trọng.","Lời thú nhận: Bí mật 25 năm",0,1791700307202],["アシスト","あしすと","hỗ trợ, giúp đỡ, sự hỗ trợ","俺 メチャクチャいいアシスト したのに 何やってんだよ お前","Tôi đã nghĩ ra ý hay thế mà. Sao cậu lại từ chối chứ?","Lời thú nhận: Bí mật 25 năm",0,1791700136386],["通りすがる","とおりすがる","đi ngang qua, tạt ngang qua, ghé qua","（麻里子）偶然 たまたま こう 通りすがっただけで…","Trùng hợp thôi. Bọn tôi vừa hay đi ngang qua đây.","Lời thú nhận: Bí mật 25 năm",0,1791700054045],["行き過ぎる","いきすぎる","quá đà, đi quá, vượt quá","あなたの その行き過ぎた優しさとか⸺","Sự tử tế quá mức của anh,","Lời thú nhận: Bí mật 25 năm",0,1791698715752],["バンソウコウ","ばんそうこう","Bansoukou, Bán sở học, Bansou-chiang","夏祭りのときの バンソウコウだって…","Miếng băng cá nhân ở lễ hội mùa hè.","Lời thú nhận: Bí mật 25 năm",0,1791698599338],["クローバー","くろーばー","cỏ ba lá, cỏ bốn lá, clover","急に 四つ葉のクローバー 置いてあったり","Nhánh cỏ bốn lá anh để lại cho tôi…","Lời thú nhận: Bí mật 25 năm",0,1791698567646],["四つ葉","よつば","cỏ bốn lá, bốn lá","急に 四つ葉のクローバー 置いてあったり","Nhánh cỏ bốn lá anh để lại cho tôi…","Lời thú nhận: Bí mật 25 năm",0,1791698559836],["コソコソ","こそこそ","lén lút, trộm, bí mật","いつも こうやって 裏でコソコソやってたってこと？","Trước giờ anh toàn lén lút làm mọi chuyện sau lưng tôi thế này sao?","Lời thú nhận: Bí mật 25 năm",0,1791698503781],["起死回生","きしかいせい","hồi sinh, phục hồi, cứu sống","（爽太）今だからこそ 会社の起死回生のためにも…","Phải là bây giờ thì công ty mới chuyển mình được.","Lời thú nhận: Bí mật 25 năm",0,1791698377920],["弱音","よわね","lời than vãn, Âm thanh yếu, lời yếu ớt","珍しい 弱音","Hiếm khi thấy cô như thế này.","Lời thú nhận: Bí mật 25 năm",0,1791698261741],["通達","つうたつ","thông báo, chỉ thị, thông tri","（麻里子）社長から 発表会の延期を通達されました","Chủ tịch đã quyết định hoãn sự kiện ra mắt.","Lời thú nhận: Bí mật 25 năm",0,1791698213615],["因果","いんが","nhân quả, nguyên nhân và kết quả, hệ quả","だから この状況は その因果だと思う","Cũng vì thế mới ra nông nỗi hiện giờ.","Lời thú nhận: Bí mật 25 năm",0,1791697212070],["弾み","はずみ","sự bật lên, đà, lực đẩy","ちょっとした はずみで 人生が壊れる","Chỉ một phút bốc đồng mà cả cuộc đời bị hủy hoại.","Lời thú nhận: Bí mật 25 năm",0,1791697086155],["該当","がいとう","phù hợp, tương ứng, thích hợp","ストーカー行為に 該当する可能性があります","ngay cả khi người bị đeo bám không hề biết.","Lời thú nhận: Bí mật 25 năm",0,1791696970309],["ベッタリ","べったり","dính như sam, quấn quýt, bám riết","ここ数日 麻里子さんに ベッタリじゃん","Mấy hôm nay cứ kè kè bên Mariko suốt.","Lời thú nhận: Bí mật 25 năm",0,1791696466509],["つきまとう","つきまとう","rình rập, theo đuổi, lảng vảng","付きまとい行為を しているんじゃありませんか？","Yukimura đang theo dõi cô sao?","Lời thú nhận: Bí mật 25 năm",0,1791696278737],["結び付く","むすびつく","liên kết, kết nối, gắn liền","高級感とは結び付かないですよね","Nhưng không tạo được cảm giác cao cấp.","Lời thú nhận: Bí mật 25 năm",0,1791696095487],["バイオマスプラスチック","ばいおますぷらすちっく","nhựa sinh học, nhựa sinh khối","バイオマスプラスチックへの 素材変更できるんだっけ…","Loại nhựa nào phù hợp nhất với sản phẩm này?","Lời thú nhận: Bí mật 25 năm",0,1791695982374],["販促","はんそく","khuyến mãi, tiếp thị, xúc tiến thương mại","（泉）すいません 今月の販促資料です","Quản lý, đây là số liệu doanh thu tháng này.","Lời thú nhận: Bí mật 25 năm",0,1791695915196],["仕業","しわざ","hành động, việc làm, thủ đoạn","この畑野という男の 仕業じゃないかと思うんです","đều đã bị tên Hatano này sát hại.","Lời thú nhận: Bí mật 25 năm",0,1791695478501],["未遂","みすい","âm mưu, cố gắng, sự cố gắng","娘の麻里子は 幼いころ 誘拐未遂事件に遭いまして","Mariko con gái tôi là nạn nhân của một vụ bắt cóc bất thành hồi nhỏ.","Lời thú nhận: Bí mật 25 năm",0,1791695438583],["心当たり","こころあたり","sự liên quan, điểm chung, chuyện đã biết","（泰輔）犯人に心当たりがある？","TIỆM HOA FUSAIDO Ông biết kẻ có thể là hung thủ ư?","Lời thú nhận: Bí mật 25 năm",0,1791695399495],["屍","しかばね","xác chết, thi thể, xác","僕の屍(しかばね)を越えて 君に幸あれ","Hãy bước qua thân xác đã ngã xuống của tôi và tìm thấy hạnh phúc.","Lời thú nhận: Bí mật 25 năm",0,1791695198841],["プロモーション","ぷろもーしょん","khuyến mãi, quảng bá, xúc tiến","15時から プロモーション戦略会議…","Hashimoto, về cuộc họp chiến lược quảng bá lúc 3 giờ chiều…","Lời thú nhận: Bí mật 25 năm",0,1791695081696],["インナー","いんなー","áo lót, quần lót, đồ lót","それより 社内インナー発表会が 近いですから 準備 急がないと","Sắp có buổi thuyết trình nội bộ công ty. Chúng ta phải nhanh chóng chuẩn bị.","Lời thú nhận: Bí mật 25 năm",0,1791695048954],["敵意","てきい","thù địch, sự thù địch, thái độ thù địch","だって あの２人はさ 明らかに 麻里子さんに敵意を向けてたわけで","Hai người đó rõ ràng đều mang ác ý với cô ấy.","Lời thú nhận: Bí mật 25 năm",0,1791694735634],["ビクビク","びくびく","run sợ, lo lắng, bồn chồn","気持ち悪がられないかなと思って ビクビクしてたんだけどさ","Lúc đầu, tôi sợ nếu một người xa lạ theo dõi cô ấy, cô ấy sẽ thấy khó chịu.","Lời thú nhận: Bí mật 25 năm",0,1791694597905],["開設","かいせつ","khai trương, thành lập, mở","（爽太）本当は 麻里子さんが ＳＮＳ開設した瞬間から知っててさ","Tôi biết tài khoản mạng xã hội của Mariko ngay từ khi cô ấy mới lập.","Lời thú nhận: Bí mật 25 năm",0,1791694515846],["鍵アカ","かぎあか","tài khoản cá nhân, tài khoản riêng tư, tài khoản khóa","（友也）鍵アカじゃないんだから フォローせずに見りゃいいだろう","Cậu có thể dùng tài khoản phụ hoặc chỉ âm thầm xem.","Lời thú nhận: Bí mật 25 năm",0,1791694385478],["追い打ち","おいうち","tấn công thêm, đòn đánh thêm, thêm dầu vào lửa","追い打ちのように 麻里子ちゃんの前で任意同行…","cảnh sát lại bắt cậu về thẩm vấn, ngay trước mặt cô ấy.","Lời thú nhận: Bí mật 25 năm",0,1791694305175],["事案","じあん","vụ việc, sự việc, trường hợp","私は 偶然として 処理できる事案だとは思いません","Tôi không nghĩ có thể xem đó chỉ là những sự trùng hợp.","Lời thú nhận: Bí mật 25 năm",0,1791693375578],["居合わせる","いあわせる","có mặt, tình cờ gặp, vừa lúc có mặt","あなたが２つの殺害現場に 居合わせたことを⸺","của hai vụ án mạng, vụ Tateiwa và vụ Nose Sayuri.","Lời thú nhận: Bí mật 25 năm",0,1791693348390],["路地","ろじ","hẻm, ngõ, lối đi nhỏ","あなたと野瀬サユリさんが 路地に入っていったところ","cho thấy anh và bà Nose Sayuri đã cùng đi vào con hẻm.","Lời thú nhận: Bí mật 25 năm",0,1791693265792],["ドライブレコーダー","どらいぶれこーだー","camera hành trình, thiết bị ghi hình hành trình, máy ghi hình ô tô","現場近くに止まっていた車の ドライブレコーダーに⸺","và một người trông giống anh đã bị camera hành trình","Lời thú nhận: Bí mật 25 năm",0,1791692725972],["刺し傷","さしきず","vết đâm, vết thương do đâm, Vết đâm","解剖の結果だと この３か所の刺し傷の中で⸺","Theo kết quả khám nghiệm tử thi, trong ba vết đâm,","Lời thú nhận: Bí mật 25 năm",0,1791691890892],["練り直す","ねりなおす","luyện tập lại, ôn lại, làm lại","コンセプトブリーフ もう少し練り直して⸺","Tinh chỉnh bản yêu cầu sản phẩm rồi gửi lại cho nhà cung cấp nhé.","Lời thú nhận: Bí mật 25 năm",0,1791691864709],["暴く","あばく","phơi bày, vạch trần, làm lộ","正体を暴くのに苦労しましたよ","Tôi đã phải mất bao công mới điều tra ra thân phận của bà.","Lời thú nhận: Bí mật 25 năm",0,1791660311840],["土俵","どひょう","võ đài, chiếu đấu, sới vật","あなたと麻里子さんは そもそも同じ土俵にいない","Bà và Mariko ngay từ đầu đã không cùng một đẳng cấp rồi.","Lời thú nhận: Bí mật 25 năm",0,1791660003140],["見下す","みくだす","coi thường, khinh miệt, nhìn xuống","生まれながらに恵まれた人間って 無意識に人を見下してんのよ","Mấy kẻ sinh ra ở vạch đích chẳng hề biết mình đang coi khinh người khác.","Lời thú nhận: Bí mật 25 năm",0,1791659908009],["哀れむ","あわれむ","thương hại, cảm thương, xót thương","なのに 私のこと 哀れむような目で見て…","Vậy mà cô ta dám nhìn tôi bằng ánh mắt thương hại đó.","Lời thú nhận: Bí mật 25 năm",0,1791659862976],["算段","さんだん","kế hoạch, sự tính toán, sự sắp đặt","そういう算段ですか？","đúng chứ?","Lời thú nhận: Bí mật 25 năm",0,1791659817157],["追い出す","おいだす","trục xuất, xua đuổi, đuổi ra","麻里子さんを 会社から追い出せるっていう⸺","Bà định đổ hết chuyện này lên đầu Mariko để đuổi cô ấy khỏi công ty,","Lời thú nhận: Bí mật 25 năm",0,1791659800163],["押しつける","おしつける","áp đặt, ép, bắt buộc","（爽太）これを全て 麻里子さんに押しつけたら⸺","Bà định đổ hết chuyện này lên đầu Mariko để đuổi cô ấy khỏi công ty,","Lời thú nhận: Bí mật 25 năm",0,1791659789824],["流出","りゅうしゅつ","sự rò rỉ, sự chảy ra, sự tràn ra","流出したら 絶対ヤバいデータ びっしり入ってましたよね","Danh sách khách hàng của công ty, công thức thành phần các sản phẩm chính.","Lời thú nhận: Bí mật 25 năm",0,1791659701612],["びっしり","びっしり","chật ních, san sát, dày đặc","流出したら 絶対ヤバいデータ びっしり入ってましたよね","Danh sách khách hàng của công ty, công thức thành phần các sản phẩm chính.","Lời thú nhận: Bí mật 25 năm",0,1791659682285],["監査部","かんさぶ","bộ phận kiểm toán, phòng kiểm toán, Phòng Kiểm toán","監査部に告発したの あなたですよね","Chính bà là người đã báo cáo lên Phòng Kiểm toán, đúng không?","Lời thú nhận: Bí mật 25 năm",0,1791659551585],["ペンケース","ぺんけーす","bút chì, hộp bút, bao bút","絶対に カバンの中の ペンケースに入ってるから","Chắc chắn ở trong túi bút bên trong túi xách nó mà.","Lời thú nhận: Bí mật 25 năm",0,1791659461345],["でたらめ","でたらめ","lung tung, bừa bãi, tùy tiện","そんな でたらめです 告発って 一体…","Vô lý! Cáo buộc kiểu gì vậy…","Lời thú nhận: Bí mật 25 năm",0,1791659310533],["押収","おうしゅう","tịch thu, thu giữ, cưỡng đoạt","社用ＰＣを押収させていただいても よろしいですか？","Chúng tôi kiểm tra máy tính công ty và điện thoại của cô được chứ?","Lời thú nhận: Bí mật 25 năm",0,1791659293864],["告発","こくはつ","tố cáo, buộc tội, kết tội","告発がありました","cô đã mang thông tin mật của công ty ra khỏi văn phòng.","Lời thú nhận: Bí mật 25 năm",0,1791659263832],["機密情報","きみつじょうほう","thông tin mật, bí mật kinh doanh, tài liệu mật","あなたが 社内の機密情報を 持ち出しているという⸺","Có người tố cáo rằng cô đã mang thông tin mật của công ty ra khỏi văn phòng.","Lời thú nhận: Bí mật 25 năm",0,1791659254150],["継ぐ","つぐ","truyền lại, kế thừa, tiếp tục","あとを継がせるのは麻里子だ","người kế nhiệm anh sẽ là Mariko.","Lời thú nhận: Bí mật 25 năm",0,1791658560101],["極力","きょくりょく","cố gắng hết sức, hết sức, tận lực","そういう行動は 極力 控えてくれないか？","nhưng anh muốn em hạn chế chuyện đó hết mức có thể.","Lời thú nhận: Bí mật 25 năm",0,1791658497211],["出入り","でいり","ra vào, ra đi, lối ra","会社にも しょっちゅう 出入りしてるみたいだけど","Có vẻ em ra vào công ty thường xuyên,","Lời thú nhận: Bí mật 25 năm",0,1791658470486],["打ち切り","うちきり","chấm dứt, ngừng lại, hủy bỏ","“捜査打ち切り…”","Khép lại điều tra\".","Lời thú nhận: Bí mật 25 năm",0,1791658354806],["妥当","だとう","hợp lý, thích đáng, phù hợp","断定はできないけどな そう考えるのが妥当だろうって⸺","Tôi không thể khẳng định chắc chắn, nhưng tất cả các điều tra viên,","Lời thú nhận: Bí mật 25 năm",0,1791658320004],["突き落とす","つきおとす","đẩy xuống, xô xuống, thúc xuống","つまり 誰かに 突き落とされたってことですか？","Nghĩa là cô ấy bị ai đó đẩy xuống, đúng không ạ?","Lời thú nhận: Bí mật 25 năm",0,1791658274408],["鑑識","かんしき","giám định, thẩm định, nhận dạng","（小野寺）ただ 鑑識が言うには 橋の欄干に残ってた指紋が…","Tuy nhiên, theo kết quả giám định, dấu vân tay để lại trên lan can cầu…","Lời thú nhận: Bí mật 25 năm",0,1791658197739],["他殺","たさつ","giết người, sát nhân, án mạng","自殺か他殺…","Là tự sát hoặc bị sát hại.","Lời thú nhận: Bí mật 25 năm",0,1791658177048],["破損","はそん","hư hại, hỏng hóc, vỡ","そう　橋の欄干も 破損してなかったし","Đúng vậy. Hơn nữa, lan can cũng không hề bị hư hỏng. Nên là…","Lời thú nhận: Bí mật 25 năm",0,1791658162190],["欄干","らんかん","lan can, cau thang, thanh lan can","そう　橋の欄干も 破損してなかったし","Đúng vậy. Hơn nữa, lan can cũng không hề bị hư hỏng. Nên là…","Lời thú nhận: Bí mật 25 năm",0,1791658138978],["乗り出す","のりだす","bắt đầu, tiến hành, lấn ra","それは 体を乗り出さないと 落ちない場所ってことですか？","Ý bác là nếu không rướn hẳn người ra thì sẽ không thể ngã được?","Lời thú nhận: Bí mật 25 năm",0,1791658117571],["搬送","はんそう","vận chuyển, chuyển, mang","病院に搬送したんだが⸺","Cô ấy được đưa thẳng đến viện,","Lời thú nhận: Bí mật 25 năm",0,1791657967587],["臨場","りんじょう","hiện trường, hiện diện, tham dự","（小野寺） 俺が現場に臨場したときには⸺","Lúc tôi đến hiện trường, cô ấy đã bất tỉnh rồi.","Lời thú nhận: Bí mật 25 năm",0,1791657950419],["守秘義務違反","しゅひぎむいはん","vi phạm nghĩa vụ bảo mật, vi phạm tính bảo mật, lộ bí mật","依頼人以外に見せることは 守秘義務違反になりますので","Cho người khác ngoài khách hàng xem là vi phạm nghĩa vụ bảo mật.","Lời thú nhận: Bí mật 25 năm",0,1791657683823],["たぐい","たぐい","loại, hạng, thứ","そんな たぐいだろうと 思ってたら…","Tôi cứ tưởng vụ đó cũng vậy.","Lời thú nhận: Bí mật 25 năm",0,1791657639287],["開示","かいじ","tiết lộ, công bố, khai báo","裁判所に令状を取れば 確実に開示請求命令が出るはずです","chúng tôi chỉ cần xin lệnh khám xét từ tòa là sẽ có lệnh yêu cầu anh cung cấp.","Lời thú nhận: Bí mật 25 năm",0,1791657574134],["令状","れいじょう","lệnh triệu tập, lệnh khám xét, lệnh bắt","裁判所に令状を取れば 確実に開示請求命令が出るはずです","chúng tôi chỉ cần xin lệnh khám xét từ tòa là sẽ có lệnh yêu cầu anh cung cấp.","Lời thú nhận: Bí mật 25 năm",0,1791657521645],["守秘義務","しゅひぎむ","nghĩa vụ bảo mật, trách nhiệm bảo mật, nghĩa vụ giữ bí mật","守秘義務がありますから 依頼人以外に見せるわけには…","Tôi có nghĩa vụ giữ bí mật nên không thể cho ai xem ngoài khách hàng.","Lời thú nhận: Bí mật 25 năm",0,1791657451219],["ちょっきり","ちょっきり","đúng, chính xác, vừa đủ","これ ちょっきりね　ごちそうさま","Tôi có đúng số tiền này. Đồ uống ngon lắm.","Lời thú nhận: Bí mật 25 năm",0,1791657349520],["のめり込む","のめりこむ","say mê, nghiện, chìm đắm","どれくらい相手を好きになるとか どれくらい のめり込むとか","Mức độ mình rung động vì một người, hay mình yêu sâu đậm đến đâu,","Lời thú nhận: Bí mật 25 năm",0,1791657159713],["巡り会う","めぐりあう","gặp gỡ, tình cờ gặp, gặp được","そんなに好きな人に 巡り会えることが⸺","nhưng tôi nghĩ tìm được người mình yêu ngay từ đầu mới là phép màu thực sự.","Lời thú nhận: Bí mật 25 năm",0,1791657028610],["ゆゆし","ゆゆし","nghiêm trọng, khó khăn, nguy cấp","なんという ゆゆしき事態…","Đúng là tình huống không thể chấp nhận được.","Lời thú nhận: Bí mật 25 năm",0,1791656923557],["メンチ","めんち","cắt, băm, xắt","-（麻里子）メンチ コロッケ -（爽太）う～ん！","Bánh khoai chiên thịt băm ở căng tin trường ấy.","Lời thú nhận: Bí mật 25 năm",0,1791656637402],["コロッケ","ころっけ","khoai tây chiên, cơm chiên, bánh khoai tây","-（麻里子）メンチ コロッケ -（爽太）う～ん！","Bánh khoai chiên thịt băm ở căng tin trường ấy.","Lời thú nhận: Bí mật 25 năm",0,1791656629053],["購買","こうばい","mua, mua hàng, sự mua","久しぶりにアレ食べたくなってきた 購買の","Tự nhiên tôi lại thèm món đó quá! Bánh khoai chiên thịt băm ở căng tin trường ấy.","Lời thú nhận: Bí mật 25 năm",0,1791656597000],["醸す","かもす","ủ, lên men, gây ra","あなた 時折 全てを見てたみたいな そんな雰囲気 醸すから","đôi lúc anh cho tôi cảm giác như thể anh đã nhìn thấy hết mọi chuyện từ hồi đó vậy.","Lời thú nhận: Bí mật 25 năm",0,1791656545051],["時折","ときおり","đôi khi, thỉnh thoảng, lúc thì","あなた 時折 全てを見てたみたいな そんな雰囲気 醸すから","đôi lúc anh cho tôi cảm giác như thể anh đã nhìn thấy hết mọi chuyện từ hồi đó vậy.","Lời thú nhận: Bí mật 25 năm",0,1791656537832],["ハメ","はめ","bẫy, lừa, cài bẫy","何度 遅刻しそうになって ダッシュするハメになったか","Anh biết tôi đã bao lần vì nó mà suýt muộn học và phải chạy hộc tốc không?","Lời thú nhận: Bí mật 25 năm",0,1791656377905],["ダッシュ","だっしゅ","chạy nước rút, lao nhanh, tốc hành","何度 遅刻しそうになって ダッシュするハメになったか","Anh biết tôi đã bao lần vì nó mà suýt muộn học và phải chạy hộc tốc không?","Lời thú nhận: Bí mật 25 năm",0,1791656372785],["改札","かいさつ","vé, lối ra, cổng soát vé","渡った向こう側にも改札できてた","Họ còn xây cả cổng soát vé ở phía đối diện.","Lời thú nhận: Bí mật 25 năm",0,1791656297152],["踏切","ふみきり","chỗ giao cắt đường sắt, nút giao đường sắt, lối sang đường sắt","はい　あの開かずの踏切 毎朝 待ってましたよ","Ừ. Ngày nào tôi cũng đứng chờ ở cái đường ngang mãi chẳng mở ấy.","Lời thú nhận: Bí mật 25 năm",0,1791656233915],["腑","ふ","phủ, bộ, tạng","けど ようやく腑(ふ)に落ちた","Nhưng giờ mọi chuyện sáng tỏ rồi.","Lời thú nhận: Bí mật 25 năm",0,1791656168429],["口論","こうろん","cãi nhau, tranh cãi, khẩu chiến","（安田）事件当日 社内で口論していた様子を⸺","Nhiều nhân viên cũng chứng kiến hai người họ cãi nhau","Lời thú nhận: Bí mật 25 năm",0,1791655788208],["憧れる","あこがれる","ngưỡng mộ, thèm muốn, ước ao","ずっと憧れてたってことじゃ ないですか？","Chẳng phải như vậy có nghĩa là cậu ấy đã luôn mến mộ cô sao?","Lời thú nhận: Bí mật 25 năm",0,1791655711526],["拒絶","きょぜつ","từ chối, cự tuyệt, sự từ chối","てことは 少なくとも 拒絶はされなかった","Vậy ít nhất cậu cũng chưa bị từ chối.","Lời thú nhận: Bí mật 25 năm",0,1791655600214],["未確認飛行物体","みかくにんひこうぶったい","vật thể bay không xác định, đĩa bay, Vật thể bay không xác định","えっ？　未確認飛行物体とか？","Vừa nãy có cái gì lóe sáng! Là gì vậy? Vật thể bay không xác định?","Lời thú nhận: Bí mật 25 năm",0,1791654899286],["作動","さどう","hoạt động, vận hành, chạy","安全装置みたいなのが 作動したんじゃないですか？","Hay tại cô dịch chuyển nên hệ thống an toàn kích hoạt rồi?","Lời thú nhận: Bí mật 25 năm",0,1791654851880],["気質","きしつ","khí chất, tính khí, khí phách","とんだ いじめっ子気質じゃ ないですか","Tôi cứ tưởng cô là anh hùng chính nghĩa, ai ngờ cũng biết bắt nạt người khác.","Lời thú nhận: Bí mật 25 năm",0,1791654785495],["いじめっ子","いじめっこ","kẻ bắt nạt, đứa hay bắt nạt","とんだ いじめっ子気質じゃ ないですか","Tôi cứ tưởng cô là anh hùng chính nghĩa, ai ngờ cũng biết bắt nạt người khác.","Lời thú nhận: Bí mật 25 năm",0,1791654777599],["とんだ","とんだ","kinh khủng, khủng khiếp, không ngờ","とんだ いじめっ子気質じゃ ないですか","Tôi cứ tưởng cô là anh hùng chính nghĩa, ai ngờ cũng biết bắt nạt người khác.","Lời thú nhận: Bí mật 25 năm",0,1791654771676],["観覧車","かんらんしゃ","đu quay, Vòng đu quay","観覧車 乗るの 初めてだから こんなに揺れるって知らな…","Đây là lần đầu tôi đi đu quay. Tôi không ngờ nó lại chòng chành thế này…","Lời thú nhận: Bí mật 25 năm",0,1791654688672],["ビビる","びびる","nhát gan, rụt rè, hèn nhát","ビビりすぎでしょう","Anh nhát quá đấy.","Lời thú nhận: Bí mật 25 năm",0,1791654654926],["座り直す","すわりなおす","ngồi lại, chỉnh lại tư thế ngồi, ngồi thẳng lại","なに？　ちょっと座り直しただけ","Gì chứ? Tôi chỉ nhúc nhích một chút thôi mà.","Lời thú nhận: Bí mật 25 năm",0,1791654606613],["しっくり","しっくり","thích hợp, hợp, vừa vặn","一緒にいて しっくり来る人って","Ở cạnh cậu ấy, cô rất tự nhiên.","Lời thú nhận: Bí mật 25 năm",0,1791654413606],["進言","しんげん","hiến kế, đề nghị, trình bày","麻里子さんが 会社に進言してくれたって","Anh ấy bảo chị đã đề xuất với công ty.","Lời thú nhận: Bí mật 25 năm",0,1791654166569],["クラウド","くらうど","đám mây, điện toán đám mây","クラウドのシステムが 新しくなったのって⸺","Hệ thống được nâng cấp là nhờ chị đúng không, chị Mariko?","Lời thú nhận: Bí mật 25 năm",0,1791654113093],["タイパ","たいぱ","hiệu quả thời gian, tối ưu thời gian, tiết kiệm thời gian","（涼子）でしょう？　タイパだよね","Đúng nhỉ? Tuyệt quá.","Lời thú nhận: Bí mật 25 năm",0,1791654070133],["キャッチコピー","きゃっちこぴー","khẩu hiệu, câu slogan, tiêu đề quảng cáo","キャッチコピーの相談 今 いいですか？","Chị Mariko, bây giờ bàn về khẩu hiệu marketing được chứ?","Lời thú nhận: Bí mật 25 năm",0,1791653907730],["ジェットコースター","じぇっとこーすたー","tàu lượn siêu tốc","じゃ ジェットコースターの 練習しとく？","Hay là mình tập luyện ngồi tàu lượn trước luôn nhé?","Lời thú nhận: Bí mật 25 năm",0,1791653785560],["ただただ","ただただ","chỉ, chỉ là, Chỉ cần","報われなくても 彼女の幸せを ただただ願うヤツだって…","không đòi hỏi đáp lại, chỉ mong người mình yêu hạnh phúc thì sao?","Lời thú nhận: Bí mật 25 năm",0,1791653729161],["報う","むくう","báo đáp, đền đáp, trả ơn","報われなくても 彼女の幸せを ただただ願うヤツだって…","không đòi hỏi đáp lại, chỉ mong người mình yêu hạnh phúc thì sao?","Lời thú nhận: Bí mật 25 năm",0,1791653711313],["見返り","みかえり","sự đền đáp, sự trả ơn, sự hồi đáp","でも そのうち 必ず見返りが欲しくなる","Nhưng dần dần, thế nào cũng sẽ muốn được đáp lại.","Lời thú nhận: Bí mật 25 năm",0,1791653636004],["ピュア","ぴゅあ","tinh khiết, thuần khiết, trong trắng","恋ってさ いつも 始まりはピュアじゃない","Tình yêu mới đầu lúc nào chẳng thuần khiết.","Lời thú nhận: Bí mật 25 năm",0,1791653596074],["キュン","きゅん","rung động, xao xuyến, Kyun","かなりキュンだよね～　ねっ？","Rung động lắm luôn. Đúng không, Sara?","Lời thú nhận: Bí mật 25 năm",0,1791653521549],["マーク","まーく","đánh dấu, dấu, ký hiệu","（爽太）僕をマークしている所は 気に食わないけど","Mình không thích việc anh ta theo dõi mình, nhưng…","Lời thú nhận: Bí mật 25 năm",0,1791653315743],["反発心","はんぱつしん","tinh thần phản kháng, sự chống đối, tính ngang ngạnh","反発心だったのかもしれません 今 思えば","Giờ nghĩ lại, chắc chỉ là tuổi nổi loạn thôi.","Lời thú nhận: Bí mật 25 năm",0,1791653204172],["惹く","ひく","thu hút, lôi cuốn, hấp dẫn","“なんでだか これに心が惹(ひ)かれる”","\"Không hiểu sao, tim mẹ cứ bị bức tranh này thu hút.","Lời thú nhận: Bí mật 25 năm",0,1791653094678],["消費","しょうひ","tiêu thụ, sự tiêu thụ, tiêu dùng","損得勘定で 芸術を消費してますよね","Tôi đang thưởng thức nghệ thuật dựa trên tính toán được mất.","Lời thú nhận: Bí mật 25 năm",0,1791653000240],["勘定","かんじょう","sự tính toán, sự thanh toán, sự cân nhắc","損得勘定で 芸術を消費してますよね","Tôi đang thưởng thức nghệ thuật dựa trên tính toán được mất.","Lời thú nhận: Bí mật 25 năm",0,1791652978020],["損得","そんとく","thiệt hơn, được mất, lời lãi","損得勘定で 芸術を消費してますよね","Tôi đang thưởng thức nghệ thuật dựa trên tính toán được mất.","Lời thú nhận: Bí mật 25 năm",0,1791652974189],["絵画","かいが","bức tranh, tranh vẽ, hội họa","絵画とか興味ありました？","Cô thích tranh và nghệ thuật chứ?","Lời thú nhận: Bí mật 25 năm",0,1791652899947],["ダブルデート","だぶるでーと","hẹn hò đôi, hẹn hò cặp đôi, hẹn hò nhóm","いや ていうか 私たち親子と ダブルデート的なの⸺","Tôi còn tính hai ta đi hẹn hò đôi, đưa cả con tôi đi cùng,","Lời thú nhận: Bí mật 25 năm",0,1791652796811],["持て余す","もてあます","không biết làm gì với, quá sức, không xuể","時間 持て余すんですよね","À… tôi thấy đến đó thành ra lại nhiều thời gian rảnh quá.","Lời thú nhận: Bí mật 25 năm",0,1791652662036],["遠足","えんそく","chuyến đi dã ngoại, buổi dã ngoại, dã ngoại","あっ 中学の遠足を最後に 行ってないかも…","Chắc từ hồi cấp hai đến giờ tôi chưa đi lại.","Lời thú nhận: Bí mật 25 năm",0,1791652624437],["しっかり者","しっかりもの","giả vờ làm người chín chắn, ra vẻ người biết lo toan, làm bộ người đảm đang","なに 自分だけ しっかり者ぶっちゃって","Sao anh cứ làm như mỗi anh đáng tin thế?","Lời thú nhận: Bí mật 25 năm",0,1791652433181],["コーヒーメーカー","こーひーめーかー","máy pha cà phê","こないだ コーヒーメーカーの所に","Hôm trước, máy pha cà phê còn nguyên một cốc.","Lời thú nhận: Bí mật 25 năm",0,1791652312139],["エスパー","えすぱー","siêu nhân, người có năng lực đặc biệt, thần giao cách cảm","あなた エスパーなんですか？","Anh là nhà ngoại cảm à?","Lời thú nhận: Bí mật 25 năm",0,1791652263687],["ウザイ","うざい","khó chịu, phiền phức, ngứa mắt","“何でも分かってます”みたいなの ウザイ！","việc gì cũng nhìn thấu, thật sự rất khó chịu.","Lời thú nhận: Bí mật 25 năm",0,1791652249767],["ひらめく","ひらめく","lóe lên, nảy ra, ý tưởng bất chợt","何か ひらめいて そのままなんじゃないですか？","nên tiện thứ gì kẹp luôn thứ đấy vào. Sau đó nảy ra ý tưởng, nên để nguyên ở đó.","Lời thú nhận: Bí mật 25 năm",0,1791652210833],["付箋","ふせん","giấy nhớ, nhãn dán, phiếu ghi nhớ","…で あの 付箋を取りに行くのは 面倒だから 手持ちの物を挟んで","Vì ngại đi lấy giấy nhớ, nên tiện thứ gì kẹp luôn thứ đấy vào. Sau đó nảy ra ý tưởng, nên để nguyên ở đó.","Lời thú nhận: Bí mật 25 năm",0,1791652175588],["先回り","さきまわり","đón đầu, đi trước, làm trước","あさってくらいまで先回りしてる 気遣い 怖いから","Anh chu đáo quá thể, lúc nào cũng tính trước mọi chuyện, làm tôi thấy hơi sợ.","Lời thú nhận: Bí mật 25 năm",0,1791651860863],["デカフェ","でかふぇ","cà phê khử caffeine, cà phê tách caffeine, decaf","あっ いや 夜なんで デカフェに…","Không. Vì tối rồi, nên tôi pha loại không caffeine.","Lời thú nhận: Bí mật 25 năm",0,1791651826966],["仕掛ける","しかける","thiết lập, dàn dựng, khiêu khích","絶対 何か仕掛けてくるわよ その前に こっちから…","Chắc chắn đang âm mưu gì đó. Nhưng quan trọng hơn,","Lời thú nhận: Bí mật 25 năm",0,1791651556435],["気味悪い","きみわるい","rợn người, kỳ quái, ghê","妙に落ち着き払って 薄気味悪かった","Cậu ta bình tĩnh một cách kỳ lạ, lại có gì đó rất rợn người.","Lời thú nhận: Bí mật 25 năm",0,1791651513285],["落ち着き払う","おちつきはらう","bình tĩnh, điềm đạm, tự chủ","妙に落ち着き払って 薄気味悪かった","Cậu ta bình tĩnh một cách kỳ lạ, lại có gì đó rất rợn người.","Lời thú nhận: Bí mật 25 năm",0,1791651505059],["異動","いどう","sự điều động, sự luân chuyển, thay đổi vị trí","（サユリ） 雪村爽太が異動するまで⸺","Trước khi Yukimura Sota chuyển phòng,","Lời thú nhận: Bí mật 25 năm",0,1791651376545],["随時","ずいじ","bất cứ lúc nào, tùy lúc, khi nào có dịp","麻里子のこと 引き続き 頼むよ 何かあったら 随時 報告してくれ","Nhờ cô tiếp tục để mắt đến Mariko. Có chuyện gì phải báo ngay cho tôi.","Lời thú nhận: Bí mật 25 năm",0,1791651328130],["秘書","ひしょ","thư ký, bí thư, bộ trưởng","秘書課にも人事にも 連絡は行ってるから⸺","Thông báo đã được gửi đến phòng Thư ký và phòng Nhân sự,","Lời thú nhận: Bí mật 25 năm",0,1791651183010],["純愛","じゅんあい","tình yêu thuần khiết, tình yêu trong sáng, tình yêu đích thực","なんか 純愛って感じで","Cảm giác yêu chân thành lắm…","Lời thú nhận: Bí mật 25 năm",0,1791650922435],["実る","みのる","chín, đơm hoa kết trái, thành công","だから 自分が好きなだけで 実らない恋でいいとは思わない","Nên tôi không muốn một tình yêu đơn phương.","Lời thú nhận: Bí mật 25 năm",0,1791650807768],["見据える","みすえる","dự đoán, hướng tới, nhìn thẳng","将来を見据えた関係を 築きたいんです","Khi quen ai đó, tôi luôn nghĩ đến một mối quan hệ lâu dài.","Lời thú nhận: Bí mật 25 năm",0,1791650762634],["気づく","きづく","nhận ra, biết, thấy","麻里子さんのことだと 気づかれてしまった","Chắc chắn cô ấy nhận ra mình đang nói về cô ấy rồi.","Lời thú nhận: Bí mật 25 năm",0,1791650408928],["大胆","だいたん","táo bạo, dũng cảm, mạnh dạn","なんで あんな大胆なことを 言ってしまったんだ","Sao mình lại mạnh miệng đến thế chứ?","Lời thú nhận: Bí mật 25 năm",0,1791650354686],["寸前","すんぜん","sắp, suýt, chút nữa","最近は考えないといけないことが 多すぎて 僕の頭は爆発寸前","Dạo này mình cứ phải nghĩ về Mariko mãi, đến mức đầu như sắp nổ tung.","Lời thú nhận: Bí mật 25 năm",0,1791650297106],["爆発","ばくはつ","bùng nổ, nổ, vụ nổ","最近は考えないといけないことが 多すぎて 僕の頭は爆発寸前","Dạo này mình cứ phải nghĩ về Mariko mãi, đến mức đầu như sắp nổ tung.","Lời thú nhận: Bí mật 25 năm",0,1791650290298],["任意","にんい","tùy ý, tự nguyện, tùy chọn","（梶原）早急に 身元を特定して任意で調べろ","Lập tức xác minh danh tính và điều tra người này.","Lời thú nhận: Bí mật 25 năm",0,1791650230932],["特定","とくてい","xác định, chỉ rõ, specific","（梶原）早急に 身元を特定して任意で調べろ","Lập tức xác minh danh tính và điều tra người này.","Lời thú nhận: Bí mật 25 năm",0,1791650203236],["身元","みもと","lý lịch, thân thế, lai lịch","（梶原）早急に 身元を特定して任意で調べろ","Lập tức xác minh danh tính và điều tra người này.","Lời thú nhận: Bí mật 25 năm",0,1791650197963],["削除","さくじょ","xóa bỏ, loại bỏ, đã xóa","この人物が データを削除したとなると…","Nếu chính là người này đã xóa dữ liệu…","Lời thú nhận: Bí mật 25 năm",0,1791650153620],["鑑定","かんてい","định giá, thẩm định, giám định","ＤＮＡ型鑑定に 持ち込めないですか？","Không thể kiếm cớ triệu tập cậu ta, rồi lấy mẫu ADN à?","Lời thú nhận: Bí mật 25 năm",0,1791649910976],["重宝","ちょうほう","hữu ích, tiện lợi, quý giá","重宝されていたって話だ","Mấy kỹ năng đó hẳn có ích.","Lời thú nhận: Bí mật 25 năm",0,1791649805038],["精通","せいつう","thông thạo, am hiểu, thành thạo","かなりネットに精通してる人物だと 思うんですけど","Chắc đó là người rất rành công nghệ.","Lời thú nhận: Bí mật 25 năm",0,1791649739786],["追跡","ついせき","theo dõi, truy đuổi, săn lùng","メールの発信元の追跡は？","Có lần ra được nó được gửi từ đâu không?","Lời thú nhận: Bí mật 25 năm",0,1791649708305],["クーデター","くーでたー","đảo chính, chính biến, lật đổ","社内クーデターでも 起こすつもりだったんじゃないのか","Ông ta định chuẩn bị từng này để làm đảo chính nội bộ sao?","Lời thú nhận: Bí mật 25 năm",0,1791649622761],["わんさか","わんさか","nhiều, đông đúc, tấp nập","内部資料が わんさかある","Đều là dữ liệu nội bộ công ty.","Lời thú nhận: Bí mật 25 năm",0,1791649585993],["復元","ふくげん","phục hồi, khôi phục, tái tạo","立岩の別宅のＰＣデータ 復元できたんですか？","Khôi phục được dữ liệu máy tính tại nơi ở thứ hai của Tateiwa chưa?","Lời thú nhận: Bí mật 25 năm",0,1791649544232],["別宅","べったく","nhà riêng, biệt thự, nhà nghỉ dưỡng","立岩の別宅のＰＣデータ 復元できたんですか？","Khôi phục được dữ liệu máy tính tại nơi ở thứ hai của Tateiwa chưa?","Lời thú nhận: Bí mật 25 năm",0,1791649534164],["寄る","よる","ghé, lại gần, tụ tập","（爽太）まぶしい光には いつだって目障りな虫が寄ってくる","Mọi luồng sáng rực rỡ đều có lũ côn trùng phiền phức vây quanh.","Lời thú nhận: Bí mật 25 năm",0,1791649406788],["執着","しゅうちゃく","sự chấp trước, sự bám víu, sự níu kéo","こんなに執着して…","Cậu ám ảnh Mariko đến mức này mà.","Lời thú nhận: Bí mật 25 năm",0,1791649316709],["陥れる","おとしいれる","bẫy, lừa đảo, dụ dỗ","これ以上 麻里子さんを 陥れるようでしたら","nếu bà còn tiếp tục âm mưu hãm hại Mariko.","Lời thú nhận: Bí mật 25 năm",0,1791649237861],["姑息","こそく","tạm bợ, chữa cháy, đối phó","あなたのような 姑息(こそく)な手段は使わない","Nên cô ấy tuyệt đối không dùng thủ đoạn như bà.","Lời thú nhận: Bí mật 25 năm",0,1791649173689],["潔白","けっぱく","trong trắng, tinh khiết, vô tội","麻里子さんは清廉潔白で 正義感のある人ですから⸺","Mariko là người ngay thẳng, rất trọng lẽ phải.","Lời thú nhận: Bí mật 25 năm",0,1791649041759],["清廉","せいれん","thanh liêm, liêm khiết, trong sạch","麻里子さんは清廉潔白で 正義感のある人ですから⸺","Mariko là người ngay thẳng, rất trọng lẽ phải.","Lời thú nhận: Bí mật 25 năm",0,1791649029079],["見当違い","けんとうちがい","sai lệch, lạc đề, hiểu lầm","ん～ 全然 見当違いというか","Bà hiểu lầm mọi chuyện rồi.","Lời thú nhận: Bí mật 25 năm",0,1791648983520],["目障り","めざわり","chướng mắt, khó chịu, vướng mắt","あの子 目障りなのよね","Con bé đó chướng mắt lắm.","Lời thú nhận: Bí mật 25 năm",0,1791648892867],["入手","にゅうしゅ","thu được, nhận được, có được","データ入手するぐらい あなたにはできるんじゃない？","Đột nhập trái phép vào hệ thống kế toán để lấy dữ liệu chắc chẳng khó gì với người như cậu nhỉ?","Lời thú nhận: Bí mật 25 năm",0,1791648824561],["たくらむ","たくらむ","âm mưu, dự tính, lên kế hoạch","何たくらんでんだか…","Nó đang tính toán gì đây.","Lời thú nhận: Bí mật 25 năm",0,1791648711230],["幼なじみ","おさななじみ","bạn thời thơ ấu, bạn thuở nhỏ, bạn thanh mai trúc mã","ちゃっかり 幼なじみのあなたを 近くに配置して⸺","Vậy mà âm thầm đưa bạn thanh mai trúc mã về làm ngay bên cạnh mình.","Lời thú nhận: Bí mật 25 năm",0,1791648635174],["ちゃっかり","ちゃっかり","tinh ranh, lanh lợi, tháo vát","ちゃっかり 幼なじみのあなたを 近くに配置して⸺","Vậy mà âm thầm đưa bạn thanh mai trúc mã về làm ngay bên cạnh mình.","Lời thú nhận: Bí mật 25 năm",0,1791648612748],["極めつき","きわめつき","đỉnh cao, tột bậc, cực hạn","極めつきに 野瀬(のせ)化粧品に入社してる","Rồi còn cùng vào Mỹ phẩm Nose làm việc.","Lời thú nhận: Bí mật 25 năm",0,1791648589167],["突っ立つ","つったつ","đừng đứng trơ ra đó, đừng đứng ngây ra đó, không đứng trơ ra","（サユリ）そんなとこ 突っ立ってないで","Đừng đứng đấy nữa. Ngồi đi.","Lời thú nhận: Bí mật 25 năm",0,1791648509511],["脅かす","おびやかす","đe dọa, hăm dọa, Đe dọa","麻里子(まりこ)さんの幸せを 脅かす危険因子は⸺","Mình sẽ không tha thứ cho bất cứ kẻ nào đe dọa đến","Lời thú nhận: Bí mật 25 năm",0,1791648450942],["因子","いんし","yếu tố, nhân tố, tác nhân","麻里子(まりこ)さんの幸せを 脅かす危険因子は⸺","Mình sẽ không tha thứ cho bất cứ kẻ nào đe dọa đến","Lời thú nhận: Bí mật 25 năm",0,1791648432399],["前歴","ぜんれき","tiền án, lý lịch tư pháp, lịch sử phạm tội","前科前歴のない人間ってことか","Là người chưa từng có tiền án.","Lời thú nhận: Bí mật 25 năm",0,1791648317518],["前科","ぜんか","tiền án, tiền sự, án tích","前科前歴のない人間ってことか","Là người chưa từng có tiền án.","Lời thú nhận: Bí mật 25 năm",0,1791648310820],["一致","いっち","phù hợp, thống nhất, nhất trí","警察のデータベースには 一致する人物はいませんでした","Không có kết quả trùng khớp trong cơ sở dữ liệu của cảnh sát.","Lời thú nhận: Bí mật 25 năm",0,1791648278105],["検出","けんしゅつ","phát hiện, khám phá, tìm thấy","被害者以外のＤＮＡ型が 検出されました","ngoài nạn nhân tại hiện trường vụ Tateiwa.","Lời thú nhận: Bí mật 25 năm",0,1791648241885],["大人びる","おとなびる","trưởng thành, Người lớn, già dặn","大人びてるのに純粋で","Chín chắn, chân thành,","Lời thú nhận: Bí mật 25 năm",0,1791647828488],["ムッと","むっと","bực bội, hậm hực, khó chịu","特別扱いされると ムッとした顔をしたりして","Hễ được đối xử đặc biệt là lại xị mặt ngay.","Lời thú nhận: Bí mật 25 năm",0,1791647809294],["目立つ","めだつ","nổi bật, dễ thấy, lộ liễu","すごく目立つ人なのに⸺","Dù rất nổi bật,","Lời thú nhận: Bí mật 25 năm",0,1791647778480],["ぶしつけ","ぶしつけ","vô lễ, thô lỗ, đường đột","ごめんなさい　ぶしつけでした","Xin lỗi. Tôi thất lễ rồi.","Lời thú nhận: Bí mật 25 năm",0,1791647689761],["綿あめ","わたあめ","kẹo bông, kẹo bông gòn","-（少女）綿あめ食べたい -（少女）食べたい！","- Hay chơi ném bia? - Ăn yakisoba đi. - Được! - Tớ cũng muốn ăn yakisoba.","Lời thú nhận: Bí mật 25 năm",0,1791647597087],["射的","しゃてき","bắn bia, chơi bắn bia, trò bắn bia","-（少女）射的しよう -（少女）したい！","- Hay chơi ném bia? - Ăn yakisoba đi.","Lời thú nhận: Bí mật 25 năm",0,1791647588149],["目ざとい","めざとい","tinh mắt, nhanh mắt, sắc sảo","えっ なに？ こわっ！　目ざとすぎ！","Gì vậy? Hãi thế. Mắt anh tinh quá.","Lời thú nhận: Bí mật 25 năm",0,1791647540830],["罵倒","ばとう","chửi rủa, mắng nhiếc, xúc phạm","私が罵倒されるとでも思って ついてきたわけ？","Anh đi theo tôi vì nghĩ tôi sẽ bị khách mắng à?","Lời thú nhận: Bí mật 25 năm",0,1791647312995],["逐一","ちくいち","từng cái một, lần lượt, từng thứ một","また何か情報があったら 逐一 報告して","Nếu có thêm thông tin gì, báo lại cho tôi ngay lập tức.","Lời thú nhận: Bí mật 25 năm",0,1791646800585],["配送料","はいそうりょう","phí vận chuyển, cước phí giao hàng, phí ship","（泉）でしょう？ 配送料 高いんだもん","- Đúng chứ? - Đúng. Phí giao hàng đắt quá!","Lời thú nhận: Bí mật 25 năm",0,1791646698214],["男手","おとこで","sự giúp đỡ của đàn ông, lao động nam giới, sức lao động nam","確かに これは 男手が必要なものだわ","Quả nhiên, việc này vẫn cần đàn ông mới xoay xở nổi nhỉ?","Lời thú nhận: Bí mật 25 năm",0,1791646678561],["取り入る","とりいる","lấy lòng, làm hài lòng, chiều lòng","上司に取り入る あざといヤツだと思っていた？","toan tính, chỉ biết tìm cách lấy lòng cấp trên sao?","Lời thú nhận: Bí mật 25 năm",0,1791646424075],["嫌がる","いやがる","không thích, ghét, chê","極端に嫌がるからなぁ","Mariko rất ghét được đối xử đặc biệt như thế.","Lời thú nhận: Bí mật 25 năm",0,1791646390392],["お茶くみ","おちゃくみ","phục vụ trà, rót trà, nghi lễ trà","お茶くみって…　ねえ？","Kiểu pha cà phê để lấy lòng cấp trên ấy.","Lời thú nhận: Bí mật 25 năm",0,1791646353726],["あざとい","あざとい","tinh ranh, lanh lợi, mưu mẹo","でも 確かに 私も ちょっと あざといなと思ってましたよ","Nhưng nói thật, tôi cũng thấy có chút tính toán nha.","Lời thú nhận: Bí mật 25 năm",0,1791646310514],["仏頂面","ぶっちょうづら","mặt buồn thiu, mặt ủ dột, mặt cau có","なに考えてるか分かんない 仏頂面の人　普通に怖かったと思う","Mặt tôi chẳng biểu cảm. Chẳng thể biết tôi đang nghĩ gì. Chắc cậu ấy sợ.","Lời thú nhận: Bí mật 25 năm",0,1791646118349],["置き去り","おきざり","bỏ rơi, bỏ lại, bỏ mặc","（友也）えっ？　置き去り？","Gì cơ? Bỏ cô lại á?","Lời thú nhận: Bí mật 25 năm",0,1791646068037],["甘酸っぱい","あまずっぱい","ngọt ngào cay đắng, chua ngọt, ngọt ngào chua xót","甘酸っぱい思い出とかないの？","Có kỷ niệm tình đầu nào không?","Lời thú nhận: Bí mật 25 năm",0,1791645978403],["属性","ぞくせい","thuộc tính, tính chất, Thuộc tính","俺と麻里子ちゃんってさ 同じ属性な気がしない？","Cô có thấy cô với tôi khá giống nhau không?","Lời thú nhận: Bí mật 25 năm",0,1791645934675],["浮上","ふじょう","nổi lên, xuất hiện, trồi lên","きっと 私と立岩さんの関係から 浮上した人物なんでしょうけど","Có lẽ anh ấy bị nghi ngờ chỉ vì mối quan hệ của tôi với ông Tateiwa.","Lời thú nhận: Bí mật 25 năm",0,1791645866701],["検証","けんしょう","xác minh, thẩm định, kiểm tra","あらゆる角度から検証中でして…","- Chúng tôi phải điều tra từ mọi góc độ. - Vậy…","Lời thú nhận: Bí mật 25 năm",0,1791645732276],["抜擢","ばってき","đề bạt, bổ nhiệm, chọn lựa","ただ 麻里子さんが抜擢(ばってき)したと 伺ったんで","Chỉ là tôi nghe kể chính cô đã chọn anh ta.","Lời thú nhận: Bí mật 25 năm",0,1791645642066],["公私","こうし","công tư, riêng tư, công việc và đời sống riêng","公私混同すると よくないので 最初に お断りしておきます","Không nên lẫn lộn chuyện công tư, nên tôi nói trước.","Lời thú nhận: Bí mật 25 năm",0,1791645576536],["イマイチ","いまいち","không tốt lắm, không ổn, chưa đạt","動機がイマイチ分かんないんスよね","mà động cơ gây án cũng chưa rõ ràng. YUKIMURA SOTA","Lời thú nhận: Bí mật 25 năm",0,1791645514605],["凶器","きょうき","vũ khí, hung khí, đồ dùng nguy hiểm","（白木） でも 凶器も見つかんないし⸺","Nhưng vẫn chưa tìm thấy hung khí,","Lời thú nhận: Bí mật 25 năm",0,1791645489853],["肋骨","あばらぼね","xương sườn, sườn, cái sườn","左胸部の肋骨(ろっこつ)の隙間から 心臓まで達していた","Đâm xuyên vào tim qua khe giữa các xương sườn bên ngực trái…","Lời thú nhận: Bí mật 25 năm",0,1791645345943],["胸部","きょうぶ","ngực, vú, bộ ngực","致命傷になったのは 胸部の刺し傷だって話だろう","vết chí mạng là vết ở ngực này, đúng chứ?","Lời thú nhận: Bí mật 25 năm",0,1791645281268],["致命傷","ちめいしょう","vết thương chí mạng, vết thương chí tử, Vết thương chí mạng","致命傷になったのは 胸部の刺し傷だって話だろう","vết chí mạng là vết ở ngực này, đúng chứ?","Lời thú nhận: Bí mật 25 năm",0,1791645265199],["解剖","かいぼう","giải phẫu, mổ xẻ, phân tích","解剖の結果だと この３か所の刺し傷の中で⸺","Theo kết quả khám nghiệm tử thi, trong ba vết đâm,","Lời thú nhận: Bí mật 25 năm",0,1791645232099],["持ち去る","もちさる","lấy đi, mang đi, cầm đi","この部屋の存在を知ってる人間が 持ち去ったか","Ai đó biết về căn phòng này đã lấy hết mọi thứ đi ư?","Lời thú nhận: Bí mật 25 năm",0,1791645189164],["間柄","あいだがら","mối quan hệ, quan hệ, quan hệ giữa người với người","（菊田）失礼ですけど 立岩さんとの間柄は？","Xin phép hỏi, cô có quan hệ thế nào với ông Tateiwa?","Lời thú nhận: Bí mật 25 năm",0,1791644997009],["鈍感","どんかん","chậm hiểu, Vô cảm, lì","あの人 結構 鈍感なんです フフッ…","Cô ấy vô tư lắm.","Lời thú nhận: Bí mật 25 năm",0,1791644850155],["意地張る","いじばる","bướng bỉnh, ngoan cố, cứng đầu","父の言うとおり いい年して 意地張ってても しかたないですし","Bố nói đúng. Ở tuổi này rồi, cứ mãi bướng bỉnh cũng chẳng để làm gì.","Lời thú nhận: Bí mật 25 năm",0,1791644645424],["欲張り","よくばり","tham lam, ham hố, tham vog","いや やっぱ 欲張りすぎか…","Hay là mình đang đòi hỏi quá nhiều?","Lời thú nhận: Bí mật 25 năm",0,1791644531783],["ブリーフ","ぶりーふ","quần sịp, quần lót nam, brief","コンセプトブリーフ もう少し練り直して⸺","Tinh chỉnh bản yêu cầu sản phẩm rồi gửi lại cho nhà cung cấp nhé.","Lời thú nhận: Bí mật 25 năm",0,1791644036052],["コンセプト","こんせぷと","khái niệm, ý niệm, tư tưởng","コンセプトブリーフ もう少し練り直して⸺","Tinh chỉnh bản yêu cầu sản phẩm rồi gửi lại cho nhà cung cấp nhé.","Lời thú nhận: Bí mật 25 năm",0,1791644024869],["好く","すく","thích, mến, yêu","ガキのころから いけ好かなかったんだよ！","Từ hồi còn nhỏ, tao đã không ưa nổi hắn.","Lời thú nhận: Bí mật 25 năm",0,1791643870049],["相応","そうおう","tương xứng, phù hợp, thích hợp","それ相応のこと お返ししたいね","Giờ tao muốn đáp lễ lại thôi.","Lời thú nhận: Bí mật 25 năm",0,1791643797304],["ムショ","むしょ","nhà tù, tù, ngục","こっちは 25年も ムショに入ってたんだよ！","Tao đã phải ngồi tù suốt 25 năm.","Lời thú nhận: Bí mật 25 năm",0,1791643771466],["口止め","くちどめ","bịt miệng, bịt miệng ai đó, làm cho ai đó im lặng","口止めしようと思ったのか","Muốn tao câm miệng chứ gì?","Lời thú nhận: Bí mật 25 năm",0,1791643693366],["週刊誌","しゅうかんし","tạp chí tuần, tạp chí hàng tuần, tuần san","週刊誌で いろいろ しゃべってるだろう","Chính ông đã tuồn đủ thứ cho bọn báo lá cải đúng không?","Lời thú nhận: Bí mật 25 năm",0,1791643656955],["見張る","みはる","canh gác, trông coi, quan sát","俺のこと見張れって言われたのか？","- Chủ tịch sai mày theo dõi tao à? - Không!","Lời thú nhận: Bí mật 25 năm",0,1791643602661],["手下","てした","tay sai, đàn em, thuộc hạ","あの社長さんの手下だったのか","Hóa ra là chó săn của ngài chủ tịch.","Lời thú nhận: Bí mật 25 năm",0,1791643562447],["嗅ぎ回る","かぎまわる","đánh hơi, dò hỏi, thăm dò","チョロチョロ嗅ぎ回ってるヤツが いると思ったら…","Tao còn thắc mắc là đứa nào cứ lén theo dõi tao.","Lời thú nhận: Bí mật 25 năm",0,1791643486941],["隠蔽","いんぺい","che giấu, bưng bít, ngụy trang","社長が隠蔽した？","Chủ tịch đã ém nhẹm chuyện đó đi ư?","Lời thú nhận: Bí mật 25 năm",0,1791643188482],["寛大","かんだい","rộng lượng, khoan dung, bao dung","彼の心の寛大さにとても感心した。","Tôi thực sự rất ngưỡng mộ sự khoan dung trong tâm hồn anh ấy.","",1,1778207123923]]</script>
+
+
+<script>
+"use strict";
+/* ================= TIỆN ÍCH CHUNG ================= */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const dayNum=(d=new Date())=>Math.floor((d.getTime()-d.getTimezoneOffset()*6e4)/864e5);
+const today=()=>dayNum();
+const LS={
+ get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+ set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){toast('⚠️ Không lưu được vào bộ nhớ trình duyệt')}}
+};
+let toastT;
+function toast(msg,ms=3500){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),ms)}
+
+/* ================= CÀI ĐẶT & DỮ LIỆU ================= */
+const QTYPES={meaning:'Nhìn từ → chọn nghĩa',reverse:'Nhìn nghĩa → chọn từ',reading:'Chọn cách đọc đúng',cloze:'Điền từ vào câu',type:'Gõ cách đọc'};
+const DEF={daily:10,reviewCap:40,exGroups:[],theme:'auto',
+ quizTypes:{meaning:true,reverse:true,reading:true,cloze:true,type:true}};
+let S=Object.assign({},DEF,LS.get('jp_settings',{}));
+S.quizTypes=Object.assign({},DEF.quizTypes,S.quizTypes);
+let W=LS.get('jp_words',{});          // kho từ: key -> {k,w,r,ro,m,ex,exTr,g,src[],edited}
+let P=LS.get('jp_prog',{});           // tiến độ SRS: key -> {lv,due,reps,lapses,ok,ng,last}
+let DEL=new Set(LS.get('jp_del',[]));  // từ đã xoá (không nạp lại khi đồng bộ)
+let META=Object.assign({lrInfo:'',days:[]},LS.get('jp_meta',{}));
+let TODAY=LS.get('jp_today',null);    // {day, ids[]} từ mới của hôm nay
+const saveS=()=>LS.set('jp_settings',S), saveW=()=>LS.set('jp_words',W), saveP=()=>LS.set('jp_prog',P),
+      saveDel=()=>LS.set('jp_del',[...DEL]), saveMeta=()=>LS.set('jp_meta',META), saveToday=()=>LS.set('jp_today',TODAY);
+const saveAll=()=>{saveW();saveP();saveDel();saveMeta();saveToday()};
+
+/* ================= XỬ LÝ CHỮ NHẬT ================= */
+const kata2hira=s=>String(s||'').replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60));
+const hasKanji=s=>/[㐀-䶿一-鿿々]/.test(s||'');
+const isKana=s=>/^[぀-ヿ\s　]+$/.test(s||'');
+const normKey=w=>kata2hira(String(w||'').normalize('NFKC').replace(/[\s　]+/g,'')).toLowerCase();
+const cleanKana=s=>kata2hira(String(s||'').normalize('NFKC')).replace(/[\sー・\-]/g,'');
+const normRo=s=>String(s||'').toLowerCase().normalize('NFKC').replace(/ā/g,'aa').replace(/ī/g,'ii').replace(/ū/g,'uu').replace(/ē/g,'ee').replace(/ō/g,'ou')
+  .replace(/[^a-z]/g,'').replace(/ou|oo/g,'o').replace(/uu/g,'u').replace(/aa/g,'a').replace(/ei/g,'e');
+
+// Tách "めんいと / Menito" thành cách đọc kana + romaji
+function splitReading(raw,w){
+ raw=String(raw||'').trim();const parts=raw.split(/\s*[\/／]\s*/);
+ const m=(parts[0]||'').match(/^[぀-ヿ\s　]+/);
+ let r=m?m[0].replace(/[\s　]+/g,''):'', ro='';
+ if(parts[1]) ro=parts[1].trim();
+ else{const rest=(parts[0]||'').slice(m?m[0].length:0).trim(); if(/^[A-Za-zāīūēō' -]+$/.test(rest)) ro=rest}
+ if(!r&&isKana(w)) r=String(w).replace(/[\s　]+/g,'');
+ return {r,ro};
+}
+
+// Bảng chuyển romaji -> hiragana (cho dạng bài gõ)
+const RT={};
+(()=>{const V='aiueo',rows={'':'あいうえお',k:'かきくけこ',s:'さしすせそ',t:'たちつてと',n:'なにぬねの',h:'はひふへほ',m:'まみむめも',r:'らりるれろ',g:'がぎぐげご',z:'ざじずぜぞ',d:'だぢづでど',b:'ばびぶべぼ',p:'ぱぴぷぺぽ'};
+ for(const c in rows)[...rows[c]].forEach((k,i)=>RT[c+V[i]]=k);
+ Object.assign(RT,{ya:'や',yu:'ゆ',yo:'よ',wa:'わ',wo:'を',shi:'し',chi:'ち',tsu:'つ',fu:'ふ',ji:'じ',si:'し',ti:'ち',tu:'つ',hu:'ふ',zi:'じ',di:'ぢ',du:'づ',
+  fa:'ふぁ',fi:'ふぃ',fe:'ふぇ',fo:'ふぉ',va:'ゔぁ',vi:'ゔぃ',vu:'ゔ',ve:'ゔぇ',vo:'ゔぉ',wi:'うぃ',we:'うぇ',ye:'いぇ',she:'しぇ',che:'ちぇ',je:'じぇ',thi:'てぃ',dhi:'でぃ',
+  sha:'しゃ',shu:'しゅ',sho:'しょ',cha:'ちゃ',chu:'ちゅ',cho:'ちょ',ja:'じゃ',ju:'じゅ',jo:'じょ',xtu:'っ',xtsu:'っ',ltu:'っ'});
+ const Y={k:'き',s:'し',t:'ち',c:'ち',n:'に',h:'ひ',m:'み',r:'り',g:'ぎ',z:'じ',j:'じ',b:'び',p:'ぴ',d:'ぢ'};
+ for(const c in Y){RT[c+'ya']=Y[c]+'ゃ';RT[c+'yu']=Y[c]+'ゅ';RT[c+'yo']=Y[c]+'ょ'}
+ [...'aiueo'].forEach((v,i)=>RT['x'+v]='ぁぃぅぇぉ'[i]);
+})();
+function romaToHira(s){
+ s=String(s||'').normalize('NFKC').toLowerCase();let o='',i=0;const isV=c=>'aiueo'.includes(c);
+ while(i<s.length){const c=s[i];
+  if(c==='-'){o+='ー';i++;continue}
+  if(c==='n'){const n1=s[i+1];
+   if(n1==="'"){o+='ん';i+=2;continue}
+   if(n1==='n'){const n2=s[i+2];o+='ん';i+=(n2&&(isV(n2)||n2==='y'))?1:2;continue}
+   if(!n1||(!isV(n1)&&n1!=='y')){o+='ん';i++;continue}
+  }
+  if(c===s[i+1]&&/[bcdfghjkmpqrstvwz]/.test(c)){o+='っ';i++;continue}
+  if(c==='t'&&s[i+1]==='c'&&s[i+2]==='h'){o+='っ';i++;continue}
+  let hit=false;for(const L of [4,3,2,1]){const p=s.substr(i,L);if(RT[p]){o+=RT[p];i+=L;hit=true;break}}
+  if(!hit){o+=c;i++}
+ }
+ return o;
+}
+
+/* ================= ĐỌC CSV / JSON / VĂN BẢN DÁN ================= */
+function parseCSV(text,delim){
+ text=String(text).replace(/^﻿/,'');const rows=[];let row=[],f='',q=false;
+ for(let i=0;i<text.length;i++){const c=text[i];
+  if(q){if(c==='"'){if(text[i+1]==='"'){f+='"';i++}else q=false}else f+=c}
+  else if(c==='"')q=true;else if(c===delim){row.push(f);f=''}
+  else if(c==='\n'){row.push(f);rows.push(row);row=[];f=''}else if(c!=='\r')f+=c;
+ }
+ if(f!==''||row.length){row.push(f);rows.push(row)}
+ return rows.filter(r=>r.some(x=>x.trim()));
+}
+function parseDelimited(text){
+ const first=String(text).split('\n').slice(0,5).join('\n');
+ const delim=(first.match(/\t/g)||[]).length>=(first.match(/,/g)||[]).length&&first.includes('\t')?'\t':',';
+ return parseCSV(text,delim);
+}
+// Nhận diện cột theo tên tiêu đề (thứ tự kiểm tra quan trọng)
+const COLS=[
+ ['exTr',/(dich_cau|dịch câu|dich cau|context.?trans|sentence.?trans|subtitle.?trans|example.?trans|trans.*context)/],
+ ['ex',/(vi_du|ví dụ|vi du|context|sentence|subtitle|example|例文|câu)/],
+ ['r',/(cach_doc|cách đọc|cach doc|reading|kana|furigana|phonetic|translit|hiragana|読み|pronun|romaji)/],
+ ['m',/(nghia|nghĩa|meaning|translation|definition|gloss|dịch|意味)/],
+ ['st',/(trang_thai|trạng thái|status)/],
+ ['g',/(nhom|nhóm|group|tag|deck|category|chủ đề)/],
+ ['w',/(tieng_nhat|tiếng nhật|word|term|lemma|vocab|expression|japanese|日本語|単語|kanji|từ vựng|^từ$|^text$|^front$)/]
+];
+function detectCols(head){
+ const map={w:-1,r:-1,m:-1,ex:-1,exTr:-1,g:-1,st:-1};
+ head.forEach((h,i)=>{h=String(h).trim().toLowerCase();for(const [f,re] of COLS){if(re.test(h)){if(map[f]<0)map[f]=i;break}}});
+ return map;
+}
+function guessCols(row){
+ if(row.length>=3&&isKana(row[1])) return {w:0,r:1,m:2,ex:row.length>3?3:-1,exTr:row.length>4?4:-1,g:-1,st:-1};
+ return {w:0,r:-1,m:1,ex:row.length>2?2:-1,exTr:row.length>3?3:-1,g:-1,st:-1};
+}
+function rowsToItems(rows,src){
+ if(!rows.length) return [];
+ let head=detectCols(rows[0]),start=1;
+ if(head.w<0||head.m<0){head=null;start=0} // không có tiêu đề → đoán cột theo từng dòng
+ return rows.slice(start).map(r=>{
+  const map=head||guessCols(r);const g=i=>i>=0?String(r[i]??'').trim():'';const w=g(map.w);const rd=splitReading(g(map.r),w);
+  return {w,r:rd.r,ro:rd.ro,m:g(map.m),ex:g(map.ex),exTr:g(map.exTr),g:g(map.g)||(src==='lr'?'Language Reactor':''),st:g(map.st),src};
+ });
+}
+function jsonToRows(data){
+ if(!Array.isArray(data)){const arr=Object.values(data||{}).find(Array.isArray);data=arr||[]}
+ if(!data.length) return [];
+ if(Array.isArray(data[0])) return data.map(r=>r.map(x=>String(x??'')));
+ const flat=o=>{const r={};for(const k in o){const v=o[k];if(v&&typeof v==='object'&&!Array.isArray(v)){for(const k2 in v)r[k+'_'+k2]=v[k2]}else r[k]=Array.isArray(v)?v.join(', '):v}return r};
+ const objs=data.map(flat);const keys=[...new Set(objs.flatMap(Object.keys))];
+ return [keys,...objs.map(o=>keys.map(k=>String(o[k]??'')))];
+}
+function parsePasted(text){
+ text=String(text).trim();
+ if(text.includes('\t')||/^[^\n]*,[^\n]*,/.test(text)) return parseDelimited(text);
+ return text.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>l.split(/\s*[:=＝：]\s*|\s+[-–—]\s+/));
+}
+
+/* ================= GỘP DỮ LIỆU & LỌC TRÙNG ================= */
+const normM=s=>String(s||'').toLowerCase().normalize('NFC').replace(/[\s().,;]+/g,' ').trim();
+function importItems(items){
+ const st={added:0,dup:0,existing:0,bad:0,skipped:0};const seen=new Set();const d=today();
+ for(const it of items){
+  if(!it.w||!it.m){st.bad++;continue}
+  const k=normKey(it.w);if(!k){st.bad++;continue}
+  if(DEL.has(k)){st.skipped++;continue}
+  let rec=W[k];
+  if(!rec){rec=W[k]={k,w:it.w,r:it.r,ro:it.ro,m:it.m,ex:it.ex,exTr:it.exTr,g:it.g,src:[it.src],added:Date.now()};st.added++}
+  else{
+   seen.has(k)?st.dup++:st.existing++;
+   if(!rec.src.includes(it.src)) rec.src.push(it.src);
+   if(!rec.edited){
+    for(const f of ['r','ro','ex','exTr','g']) if(!rec[f]&&it[f]) rec[f]=it[f];
+    const a=normM(rec.m),b=normM(it.m);
+    if(b&&!a.includes(b)){ if(b.includes(a)) rec.m=it.m; else rec.m=rec.m+'; '+it.m }
+   }
+  }
+  if(/^KNOWN$/i.test(it.st||'')&&!P[k]) P[k]={lv:4,due:d+1+(Math.random()*21|0),reps:1,lapses:0,ok:0,ng:0,last:-1};
+  seen.add(k);
+ }
+ return st;
+}
+const statText=st=>`+${st.added} từ mới · gộp ${st.dup} từ trùng`+(st.bad?` · bỏ ${st.bad} dòng lỗi`:'')+(st.skipped?` · bỏ qua ${st.skipped} từ đã xoá`:'');
+
+/* Sang ngày mới → chọn bộ từ mới */
+function checkDay(){
+ if(!TODAY||TODAY.day!==today()){ensureToday();if(view==='today') render()}
+}
+
+/* ================= TỪ MỚI MỖI NGÀY ================= */
+const grpName=x=>x.g||'(Không nhóm)';
+const inGroups=x=>!S.exGroups.includes(grpName(x));
+const newPool=()=>Object.values(W).filter(x=>!P[x.k]&&x.m&&inGroups(x));
+function ensureToday(){
+ const d=today();if(TODAY&&TODAY.day===d) return;
+ TODAY={day:d,ids:shuffle(newPool()).slice(0,S.daily).map(x=>x.k)};saveToday();
+}
+function topUpToday(n){
+ const ex=new Set(TODAY.ids);const need=n??Math.max(0,S.daily-TODAY.ids.filter(k=>W[k]).length);
+ TODAY.ids=TODAY.ids.filter(k=>W[k]).concat(shuffle(newPool().filter(x=>!ex.has(x.k))).slice(0,need).map(x=>x.k));saveToday();
+}
+const todayIds=()=>(TODAY?.ids||[]).filter(k=>W[k]);
+function dueList(){const d=today(),t=new Set(todayIds());
+ return Object.keys(P).filter(k=>W[k]&&P[k].due<=d&&!t.has(k)).sort((a,b)=>P[a].due-P[b].due).slice(0,S.reviewCap)}
+
+/* ================= LẶP LẠI NGẮT QUÃNG (SRS) ================= */
+const IV=[1,3,7,14,30,60,120,240]; // số ngày giữa các lần ôn theo cấp độ
+function sched(p,g,d){
+ p=Object.assign({lv:0,due:d,reps:0,lapses:0,ok:0,ng:0,last:-1},p);
+ const same=p.last===d&&p.reps>0; // đã ôn trong hôm nay → không tăng cấp 2 lần
+ if(g===1){p.lv=0;p.lapses++;p.due=d+1}
+ else if(g===2){p.lv=Math.max(1,p.lv);p.due=d+Math.max(1,Math.round(IV[p.lv-1]/2))}
+ else{if(!same||p.lv===0)p.lv=Math.min(IV.length,p.lv+(g===4?2:1));p.due=d+IV[p.lv-1]}
+ p.reps++;p.last=d;return p;
+}
+function grade(k,g){P[k]=sched(P[k],g,today());markDay();saveP()}
+function markDay(){const d=today();if(!META.days.includes(d)){META.days.push(d);META.days=META.days.slice(-400);saveMeta()}}
+function nextLabel(k,g){if(g===1) return 'học lại';const p=sched(P[k],g,today());const n=p.due-today();return n+' ngày'}
+const status=k=>!P[k]?'new':P[k].lv>=4?'done':'learn';
+const statusBadge=k=>({new:'<span class="badge b-new">Chưa học</span>',learn:'<span class="badge b-learn">Đang học</span>',done:'<span class="badge b-done">Đã thuộc</span>'})[status(k)];
+function streak(){const s=new Set(META.days);let d=today();if(!s.has(d))d--;let n=0;while(s.has(d)){n++;d--}return n}
+function stats(){let learn=0,done=0,ok=0,ng=0;for(const k in P){if(!W[k])continue;P[k].lv>=4?done++:learn++;ok+=P[k].ok||0;ng+=P[k].ng||0}
+ return {total:Object.keys(W).length,learn,done,acc:ok+ng?Math.round(ok/(ok+ng)*100)+'%':'—'}}
+
+
+/* ================= TẠO CÂU HỎI TRẮC NGHIỆM ================= */
+const DAK={か:'が',き:'ぎ',く:'ぐ',け:'げ',こ:'ご',さ:'ざ',し:'じ',す:'ず',せ:'ぜ',そ:'ぞ',た:'だ',ち:'ぢ',つ:'づ',て:'で',と:'ど',は:'ば',ひ:'び',ふ:'ぶ',へ:'べ',ほ:'ぼ'};
+const UNDAK=Object.fromEntries(Object.entries(DAK).map(([a,b])=>[b,a]));
+const ODAN='おこそとのほもよろごぞどぼぽょ';
+// Sinh cách đọc "gần giống" để làm đáp án nhiễu (bỏ/thêm っ, trường âm, dakuten…)
+function mutations(r){
+ const c=[...r],out=new Set(),put=a=>{const s=a.join('');if(s&&s!==r)out.add(s)};
+ c.forEach((ch,i)=>{
+  if(DAK[ch]){const a=[...c];a[i]=DAK[ch];put(a)}
+  if(UNDAK[ch]){const a=[...c];a[i]=UNDAK[ch];put(a)}
+  if(ch==='っ'||(ch==='う'&&i>0&&ODAN.includes(c[i-1]))||(ch==='い'&&i>0&&'えけせてねへめれげぜでべ'.includes(c[i-1]))){const a=[...c];a.splice(i,1);put(a)}
+  if(ODAN.includes(ch)&&c[i+1]!=='う'&&(i===c.length-1||'んっ'.includes(c[i+1]))){const a=[...c];a.splice(i+1,0,'う');put(a)}
+  if(i>0&&/[かきくけこさしすせそたちつてとぱぴぷぺぽ]/.test(ch)&&!'っんゃゅょぁぃぅぇぉー'.includes(c[i-1])){const a=[...c];a.splice(i,0,'っ');put(a)}
+  if(ch==='ょ'||ch==='ゅ'){const a=[...c];a[i]=ch==='ょ'?'ゅ':'ょ';put(a)}
+ });
+ return [...out];
+}
+function distractors(w,n,val,filter){
+ const v0=val(w),len0=[...v0].length,seen=new Set([v0.trim().toLowerCase()]),out=[];
+ const cands=Object.values(W).filter(x=>x.k!==w.k&&val(x)&&(!filter||filter(x)))
+  .map(x=>({v:val(x),s:(x.g&&x.g===w.g?2:0)+(Math.abs([...val(x)].length-len0)<=1?1:0)+Math.random()*2.5}))
+  .sort((a,b)=>b.s-a.s);
+ for(const c of cands){const nv=c.v.trim().toLowerCase();if(seen.has(nv))continue;seen.add(nv);out.push(c.v);if(out.length>=n)break}
+ return out;
+}
+function eligible(w){
+ const t=[];const on=x=>S.quizTypes[x];
+ if(on('meaning'))t.push(['meaning',3]);
+ if(on('reverse'))t.push(['reverse',2]);
+ if(on('reading')&&w.r&&hasKanji(w.w))t.push(['reading',2.5]);
+ if(on('cloze')&&w.ex&&w.ex.includes(w.w)&&w.ex!==w.w)t.push(['cloze',3]);
+ if(on('type')&&w.r)t.push(['type',1.5]);
+ return t.length?t:[['meaning',1]];
+}
+function buildQ(k){
+ const w=W[k],types=eligible(w);let r=Math.random()*types.reduce((s,t)=>s+t[1],0),type=types[0][0];
+ for(const [t,wt] of types){r-=wt;if(r<=0){type=t;break}}
+ let correct,others=[],jp=true;
+ if(type==='meaning'){correct=w.m;others=distractors(w,3,x=>x.m);jp=false}
+ else if(type==='reading'){correct=w.r;const syn=shuffle(mutations(kata2hira(w.r))).slice(0,2);
+  others=[...new Set([...syn,...distractors(w,3,x=>hasKanji(x.w)?x.r||'':'')])].filter(x=>x!==w.r).slice(0,3)}
+ else if(type!=='type'){correct=w.w;others=distractors(w,3,x=>x.w)}
+ const opts=type==='type'?[]:shuffle([{label:correct,ok:true},...others.map(l=>({label:l,ok:false}))]);
+ return {k,type,opts,jp,done:false,pick:-1,right:null,input:''};
+}
+
+/* ================= DỮ LIỆU LANGUAGE REACTOR GẮN SẴN ================= */
+let LR_EMBED=[];try{LR_EMBED=JSON.parse($('#lrdata').textContent)}catch(e){}
+const LR_VER=LR_EMBED.length+':'+Math.max(0,...LR_EMBED.map(x=>x[7]||0));
+const LR_DATE='20/10/2026';
+
+/* ================= TRẠNG THÁI GIAO DIỆN ================= */
+let view='today',SES=null;
+const VF={q:'',g:'',st:'',limit:100};       // bộ lọc kho từ
+const PR={g:'',n:20,src:'learned'};          // luyện tập tự do
+
+function startSession(kind,keys,title,src){
+ keys=[...new Set(keys)].filter(k=>W[k]);
+ if(!keys.length){toast('Không có từ nào để học');return}
+ SES={kind,title,src,queue:shuffle(keys),pos:0,total:keys.length,ok:0,ng:0,cnt:{1:0,2:0,3:0,4:0},requeued:new Set(),flipped:false,back:view==='session'?(SES?.back||'today'):view};
+ if(kind==='quiz') SES.q=buildQ(SES.queue[0]);
+ view='session';render();afterQRender();
+}
+function afterQRender(){
+ if(view!=='session'||!SES||SES.kind!=='quiz'||!SES.q||SES.pos>=SES.queue.length) return;
+ const q=SES.q;
+ if(!q.done&&q.type==='type') $('#typeIn')?.focus();
+ if(q.done) $('#nextBtn')?.focus({preventScroll:true});
+}
+
+/* ================= HIỂN THỊ ================= */
+// Chữ Hán thuần → furigana dạng ruby; từ lẫn kana/chữ khác → cách đọc ở dòng trên
+const ruby=w=>!w.r||w.r===w.w||isKana(w.w)?esc(w.w):/^[\u3400-\u9fff々]+$/.test(w.w)?`<ruby>${esc(w.w)}<rt>${esc(w.r)}</rt></ruby>`:`<span class="rdl">${esc(w.r)}</span>${esc(w.w)}`;
+const hl=(ex,word)=>{const e=esc(ex),q=esc(word);return q&&e.includes(q)?e.split(q).join(`<mark>${q}</mark>`):e};
+function detail(w){
+ return `<div class="detail">${w.ro?`<div class="ro">${esc(w.ro)}</div>`:''}<div class="mean">${esc(w.m)}</div>
+ ${w.ex?`<div class="ex"><div class="jp">${hl(w.ex,w.w)}</div>${w.exTr?`<div class="muted small">${esc(w.exTr)}</div>`:''}</div>`:''}</div>`;
+}
+function dateLabel(){const s=new Date().toLocaleDateString('vi-VN',{weekday:'long',day:'numeric',month:'numeric',year:'numeric'});return s.charAt(0).toUpperCase()+s.slice(1)}
+const fmtTime=t=>t?new Date(t).toLocaleString('vi-VN',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit'}):'chưa có';
+const stat=(l,v)=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`;
+
+function renderToday(){
+ const ids=todayIds(),learned=ids.filter(k=>P[k]).length,due=dueList(),s=stats();
+ if(!s.total) return `<section class="card"><h2>Chào mừng bạn! 👋</h2>
+  <p class="muted">Kho từ vựng đang trống. Hãy nạp từ vựng để app chọn từ mới cho bạn mỗi ngày.</p>${importBox()}</section>`;
+ return `
+ <section class="card">
+  <div class="hero-top"><div><div class="muted small">${dateLabel()}</div><h2>${ids.length?`Hôm nay học ${ids.length} từ mới nhé!`:'Bạn đã học hết kho từ 🎉'}</h2></div>
+  <div class="streak" title="Chuỗi ngày học liên tiếp">🔥<b>${streak()}</b><span>ngày</span></div></div>
+  <div class="stats">${stat('Tổng số từ',s.total)}${stat('Đang học',s.learn)}${stat('Đã thuộc',s.done)}${stat('Tỉ lệ đúng',s.acc)}</div>
+ </section>
+ <section class="card">
+  <div class="sec-head"><h3>Từ mới hôm nay</h3><span class="pill">${learned}/${ids.length} đã học</span></div>
+  ${ids.length?`<div class="chips">${ids.map(k=>{const w=W[k];return `<div class="chip ${P[k]?'done':''}"><span class="jp w">${esc(w.w)}</span><span class="jp r">${esc(w.r&&w.r!==w.w?w.r:'')}&nbsp;</span><span class="m">${esc(w.m)}</span></div>`}).join('')}</div>`
+   :`<p class="muted">Không còn từ mới trong các nhóm đã chọn. Hãy thêm nhóm ở <b>Cài đặt</b> hoặc nhập thêm từ Language Reactor.</p>`}
+  <div class="actions">
+   <button class="btn primary" data-act="cardsToday" ${ids.length?'':'disabled'}>📇 Học thẻ</button>
+   <button class="btn" data-act="quizToday" ${ids.length?'':'disabled'}>✍️ Làm bài kiểm tra</button>
+   <button class="btn ghost" data-act="more">＋5 từ</button>
+   <button class="btn ghost" data-act="reroll" title="Đổi các từ chưa học sang bộ khác">🔀 Đổi bộ khác</button>
+  </div>
+ </section>
+ <section class="card">
+  <div class="sec-head"><h3>Ôn tập đến hạn</h3>${P&&Object.keys(P).length?'':'<span class="muted small">Học từ mới để bắt đầu ôn tập</span>'}</div>
+  <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><div class="due-num">${due.length}</div><div class="muted">từ cần ôn hôm nay<br><span class="small">theo lịch lặp lại ngắt quãng 1 · 3 · 7 · 14 · 30 ngày…</span></div></div>
+  <div class="actions"><button class="btn primary" data-act="quizDue" ${due.length?'':'disabled'}>✍️ Ôn bằng trắc nghiệm</button><button class="btn" data-act="cardsDue" ${due.length?'':'disabled'}>📇 Ôn bằng thẻ</button></div>
+ </section>`;
+}
+
+function renderSession(){
+ const s=SES,n=s.queue.length,fin=s.pos>=n;
+ const head=`<div class="ses-head"><button class="btn ghost sm" data-act="quit">✕ Thoát</button><div class="bar"><i style="width:${Math.round(Math.min(s.pos,n)/n*100)}%"></i></div><span class="muted small">${Math.min(s.pos+1,n)}/${n}</span></div>`;
+ if(fin) return head+renderFinish();
+ return head+(s.kind==='cards'?renderCard():renderQuiz());
+}
+function renderCard(){
+ const s=SES,w=W[s.queue[s.pos]];
+ return `<div class="card flash" data-act="flip">
+  ${w.g?`<div class="tag">${esc(w.g)}</div>`:''}
+  <div class="jp big">${s.flipped?ruby(w):esc(w.w)}</div>
+  ${s.flipped?detail(w):`<div class="muted hint">Nhớ nghĩa và cách đọc, rồi nhấn để lật thẻ <kbd>Space</kbd></div>`}
+ </div>
+ ${s.flipped?`<div class="rate">${['Quên','Khó','Nhớ','Dễ'].map((l,i)=>`<button class="btn rate-${i+1}" data-act="rate" data-g="${i+1}"><b>${l}</b><small>${nextLabel(w.k,i+1)} · phím ${i+1}</small></button>`).join('')}</div>`
+  :`<div class="actions center"><button class="btn primary" data-act="flip">Lật thẻ</button></div>`}`;
+}
+const QTITLE={meaning:'Chọn nghĩa đúng',reverse:'Chọn từ tiếng Nhật đúng',reading:'Chọn cách đọc đúng',cloze:'Điền từ vào chỗ trống',type:'Gõ cách đọc (hiragana hoặc romaji)'};
+function renderQuiz(){
+ const q=SES.q,w=W[q.k];let prompt='';
+ if(q.type==='meaning') prompt=`<div class="jp big">${esc(w.w)}</div>`;
+ else if(q.type==='reverse') prompt=`<div class="big-vn">${esc(w.m)}</div>`;
+ else if(q.type==='reading'||q.type==='type') prompt=`<div class="jp big">${esc(w.w)}</div><div class="muted">${esc(w.m)}</div>`;
+ else if(q.type==='cloze') prompt=`<div class="jp sent">${esc(w.ex).split(esc(w.w)).join('<span class="blank">＿＿</span>')}</div>${w.exTr?`<div class="muted">${esc(w.exTr)}</div>`:''}`;
+ const body=q.type==='type'
+  ?`<form data-form="type" class="type-row"><input id="typeIn" class="jp" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="vd: めんいと hoặc menito" value="${esc(q.input)}" ${q.done?'disabled':''}><button class="btn primary" ${q.done?'disabled':''}>Kiểm tra</button></form>
+    <div class="muted small" id="kanaPrev" style="margin-top:6px;min-height:1.4em"></div>${q.done?'':`<button class="btn ghost sm" data-act="skipType">Không biết</button>`}`
+  :`<div class="opts">${q.opts.map((o,i)=>{const c=q.done?(o.ok?'correct':i===q.pick?'wrong':'dim'):'';
+     return `<button class="opt ${c}" data-act="choose" data-i="${i}" ${q.done?'disabled':''}><kbd>${i+1}</kbd><span class="${q.jp?'jp':''}">${esc(o.label)}</span></button>`}).join('')}</div>`;
+ const fb=q.done?`<div class="fb ${q.right?'ok':'ng'}"><div class="fb-title">${q.right?'✓ Chính xác!':'✗ Chưa đúng — ghi nhớ lại nhé'}</div>
+   <div class="fb-word jp">${ruby(w)}</div>${detail(w)}<button class="btn primary next" id="nextBtn" data-act="next">Tiếp tục ⏎</button></div>`:'';
+ return `<div class="card"><div class="qtype">${QTITLE[q.type]}</div><div class="prompt">${prompt}</div>${body}${fb}</div>`;
+}
+function renderFinish(){
+ const s=SES;
+ if(s.kind==='cards') return `<div class="card finish"><div class="big-emoji">🎉</div><h2>Hoàn thành ${s.total} thẻ!</h2>
+  <p class="muted">Quên ${s.cnt[1]} · Khó ${s.cnt[2]} · Nhớ ${s.cnt[3]} · Dễ ${s.cnt[4]}</p>
+  <p>Làm bài trắc nghiệm ngay để khắc sâu trí nhớ.</p>
+  <div class="actions center"><button class="btn primary" data-act="quizAgain">✍️ Kiểm tra các từ này</button><button class="btn" data-act="home">Về trang chủ</button></div></div>`;
+ const pct=Math.round(s.ok/Math.max(1,s.ok+s.ng)*100);
+ return `<div class="card finish"><div class="big-emoji">${pct>=90?'🏆':pct>=70?'👏':'💪'}</div><div class="score">${pct}%</div>
+  <h2>Đúng ${s.ok}/${s.ok+s.ng} câu</h2><p class="muted">${pct>=90?'Xuất sắc! Bạn nhớ rất tốt.':pct>=70?'Tốt lắm! Các từ sai sẽ được ôn lại sớm hơn.':'Đừng lo — các từ sai đã được đưa vào lịch ôn ngày mai.'}</p>
+  <div class="actions center"><button class="btn primary" data-act="quizAgain">🔁 Làm lại</button><button class="btn" data-act="home">Về trang chủ</button></div></div>`;
+}
+
+function renderReview(){
+ const due=dueList(),groups=groupCounts();
+ const weak=Object.keys(P).filter(k=>W[k]&&((P[k].lapses||0)+(P[k].ng||0))>0).sort((a,b)=>((P[b].lapses||0)+(P[b].ng||0))-((P[a].lapses||0)+(P[a].ng||0))).slice(0,30);
+ return `
+ <section class="card"><div class="sec-head"><h3>Đến hạn hôm nay</h3><span class="pill">${due.length} từ</span></div>
+  <div class="actions" style="margin-top:0"><button class="btn primary" data-act="quizDue" ${due.length?'':'disabled'}>✍️ Trắc nghiệm</button><button class="btn" data-act="cardsDue" ${due.length?'':'disabled'}>📇 Thẻ</button></div></section>
+ <section class="card"><div class="sec-head"><h3>Luyện tập tự do</h3></div>
+  <div class="filters" style="grid-template-columns:1fr 1fr 1fr">
+   <select data-pr="src"><option value="learned" ${PR.src==='learned'?'selected':''}>Từ đã học</option><option value="all" ${PR.src==='all'?'selected':''}>Tất cả từ</option><option value="weak" ${PR.src==='weak'?'selected':''}>Từ hay sai</option></select>
+   <select data-pr="g"><option value="">Mọi nhóm</option>${groups.map(([g,n])=>`<option value="${esc(g)}" ${PR.g===g?'selected':''}>${esc(g)} (${n})</option>`).join('')}</select>
+   <select data-pr="n">${[10,20,30,50].map(n=>`<option ${PR.n===n?'selected':''}>${n}</option>`).join('')}</select>
+  </div>
+  <div class="actions"><button class="btn primary" data-act="practice" data-kind="quiz">✍️ Bắt đầu trắc nghiệm</button><button class="btn" data-act="practice" data-kind="cards">📇 Học thẻ</button></div></section>
+ <section class="card"><div class="sec-head"><h3>Từ hay sai</h3><span class="muted small">${weak.length?'Ưu tiên ôn những từ này':'Chưa có — làm bài tập để thống kê'}</span></div>
+  ${weak.length?`<div class="chips">${weak.slice(0,12).map(k=>{const w=W[k];return `<div class="chip"><span class="jp w">${esc(w.w)}</span><span class="jp r">${esc(w.r&&w.r!==w.w?w.r:'')}&nbsp;</span><span class="m">${esc(w.m)}</span></div>`}).join('')}</div>
+  <div class="actions"><button class="btn" data-act="weak">✍️ Ôn ${weak.length} từ hay sai</button></div>`:''}</section>`;
+}
+function groupCounts(){const c={};for(const k in W){const g=grpName(W[k]);c[g]=(c[g]||0)+1}return Object.entries(c).sort((a,b)=>b[1]-a[1])}
+
+function vocabFiltered(){
+ const q=normKey(VF.q),d=today(),t=new Set(todayIds());
+ return Object.values(W).filter(w=>{
+  if(VF.g&&grpName(w)!==VF.g) return false;
+  if(VF.st){const s=status(w.k);if(VF.st==='today'?!t.has(w.k):VF.st==='due'?!(P[w.k]&&P[w.k].due<=d):s!==VF.st) return false}
+  if(q&&!(normKey(w.w).includes(q)||normKey(w.r).includes(q)||normKey(w.ro).includes(q)||normKey(w.m).includes(q)||cleanKana(w.r).includes(romaToHira(q)))) return false;
+  return true;
+ }).sort((a,b)=>(b.added||0)-(a.added||0));
+}
+function vlist(){
+ const list=vocabFiltered();
+ return `<div class="muted small" style="margin:10px 0 2px">${list.length} từ</div>`+list.slice(0,VF.limit).map(w=>`
+  <div class="vrow"><div class="vw"><span class="jp w">${esc(w.w)}</span><span class="jp r">${esc(w.r&&w.r!==w.w?w.r:'')}</span></div>
+  <div class="vm">${esc(w.m)}<div class="muted small">${esc(grpName(w))} · ${statusBadge(w.k)}</div></div>
+  <div class="vact"><button class="icon" data-act="edit" data-k="${esc(w.k)}" aria-label="Sửa">✏️</button><button class="icon" data-act="del" data-k="${esc(w.k)}" aria-label="Xoá">🗑</button></div></div>`).join('')
+  +(list.length>VF.limit?`<div class="actions center"><button class="btn" data-act="vmore">Xem thêm (${list.length-VF.limit})</button></div>`:'');
+}
+function renderVocab(){
+ return `<section class="card"><div class="sec-head"><h3>Kho từ vựng</h3></div>
+  <div class="filters"><input data-vf="q" placeholder="🔍 Tìm theo từ, cách đọc, romaji, nghĩa…" value="${esc(VF.q)}">
+   <select data-vf="g"><option value="">Mọi nhóm</option>${groupCounts().map(([g,n])=>`<option value="${esc(g)}" ${VF.g===g?'selected':''}>${esc(g)} (${n})</option>`).join('')}</select>
+   <select data-vf="st">${[['','Mọi trạng thái'],['new','Chưa học'],['learn','Đang học'],['done','Đã thuộc'],['today','Từ hôm nay'],['due','Đến hạn ôn']].map(([v,l])=>`<option value="${v}" ${VF.st===v?'selected':''}>${l}</option>`).join('')}</select></div>
+  <div id="vlist">${vlist()}</div></section>`;
+}
+
+// Khối nhập từ vựng (dùng ở trang Hôm nay khi kho trống và ở Cài đặt)
+function importBox(){
+ return `<div class="note">App chỉ dùng từ vựng đã lưu trên Language Reactor (${LR_EMBED.length} từ có sẵn trong app, lấy ngày ${esc(LR_DATE)}).
+   Khi bạn lưu thêm từ mới, cập nhật như sau:
+   <ol><li>Mở <b>languagereactor.com/saved-items</b> → nút <b>Xuất</b> → tab <b>JSON</b> (chọn giai đoạn Đang học + Đã biết) → <b>Xuất</b>.</li><li>Chọn file vừa tải ở ô dưới — app tự lọc trùng và chỉ thêm từ mới.</li></ol></div>
+  <input type="file" id="lrFile" accept=".json,.csv,.tsv,.txt" class="field">
+  ${META.lrInfo?`<div class="note">Lần nhập gần nhất: ${esc(META.lrInfo)}</div>`:''}`;
+}
+function renderSettings(){
+ const g=groupCounts();
+ return `
+ <section class="card"><h3>Học mỗi ngày</h3>
+  <div class="set-row"><label>Số từ mới mỗi ngày</label><input type="number" min="1" max="100" data-set="daily" value="${S.daily}"></div>
+  <div class="set-row"><label>Số từ ôn tối đa mỗi ngày</label><input type="number" min="5" max="500" data-set="reviewCap" value="${S.reviewCap}"></div>
+  <div class="set-row"><label>Giao diện</label><select data-set="theme">${[['auto','Theo hệ thống'],['light','Sáng'],['dark','Tối']].map(([v,l])=>`<option value="${v}" ${S.theme===v?'selected':''}>${l}</option>`).join('')}</select></div>
+ </section>
+ <section class="card"><h3>Dạng bài tập</h3>
+  ${Object.entries(QTYPES).map(([k,l])=>`<div class="set-row"><label>${l}</label><input type="checkbox" data-qt="${k}" ${S.quizTypes[k]?'checked':''}></div>`).join('')}
+ </section>
+ <section class="card"><div class="sec-head"><h3>Nhóm dùng để chọn từ mới</h3><span><button class="btn sm ghost" data-act="grpAll">Chọn hết</button> <button class="btn sm ghost" data-act="grpNone">Bỏ hết</button></span></div>
+  <div class="grps">${g.map(([n,c])=>`<label class="grp"><input type="checkbox" data-grp="${esc(n)}" ${S.exGroups.includes(n)?'':'checked'}>${esc(n)} <span class="muted">(${c})</span></label>`).join('')}</div>
+ </section>
+ <section class="card"><h3>Nhập từ vựng — Language Reactor</h3>${importBox()}</section>
+ <section class="card"><h3>Sao lưu dữ liệu</h3>
+  <p class="muted small">Dữ liệu và tiến độ được lưu trong trình duyệt này. Hãy xuất file sao lưu định kỳ hoặc để chuyển sang máy khác.</p>
+  <div class="actions"><button class="btn" data-act="export">⬇️ Xuất file JSON</button><label class="btn">⬆️ Nhập file sao lưu<input type="file" id="bakFile" accept=".json" hidden></label><button class="btn ghost" data-act="reset" style="color:var(--ng)">Xoá toàn bộ dữ liệu</button></div>
+ </section>`;
+}
+
+function render(){
+ document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.v===view));
+ document.body.classList.toggle('in-session',view==='session');
+ const fn={session:renderSession,review:renderReview,vocab:renderVocab,settings:renderSettings}[view]||renderToday;
+ $('#main').innerHTML=fn();
+}
+function applyTheme(){S.theme==='auto'?document.documentElement.removeAttribute('data-theme'):document.documentElement.dataset.theme=S.theme}
+
+/* ================= HÀNH ĐỘNG ================= */
+function answerChoice(i){const q=SES.q;if(q.done)return;q.pick=i;q.right=q.opts[i].ok;q.done=true;afterAnswer()}
+function answerType(v){const q=SES.q;if(q.done)return;q.input=v;q.right=checkTyped(v,W[q.k]);q.done=true;afterAnswer()}
+function checkTyped(v,w){
+ if(!String(v).trim()) return false;
+ const a=cleanKana(romaToHira(v)),e=cleanKana(w.r);
+ if(a&&e&&a===e) return true;
+ const x=normRo(v),y=normRo(w.ro);return !!(x&&y&&x===y);
+}
+function afterAnswer(){
+ const q=SES.q,k=q.k,first=!SES.requeued.has(k);
+ if(first){grade(k,q.right?3:1);P[k][q.right?'ok':'ng']=(P[k][q.right?'ok':'ng']||0)+1;saveP();q.right?SES.ok++:SES.ng++}
+ if(!q.right&&first){SES.queue.push(k);SES.requeued.add(k)} // sai → hỏi lại ở cuối phiên
+ render();afterQRender();
+}
+const ACT={
+ tab:d=>{view=d.v;render();scrollTo(0,0)},
+ home:()=>{view='today';SES=null;render()},
+ quit:()=>{if(SES&&SES.pos<SES.queue.length&&SES.pos>0&&!confirm('Thoát phiên học? Kết quả đã làm vẫn được lưu.'))return;view=SES?.back||'today';SES=null;render()},
+ cardsToday:()=>startSession('cards',todayIds(),'Từ mới hôm nay','today'),
+ quizToday:()=>startSession('quiz',todayIds(),'Kiểm tra từ hôm nay','today'),
+ cardsDue:()=>startSession('cards',dueList(),'Ôn tập','due'),
+ quizDue:()=>startSession('quiz',dueList(),'Ôn tập','due'),
+ quizAgain:()=>{const keys=[...new Set(SES.queue)];startSession('quiz',keys,'Kiểm tra',SES.src)},
+ more:()=>{const n=todayIds().length;topUpToday(5);const add=todayIds().length-n;toast(add?`Đã thêm ${add} từ mới`:'Không còn từ mới trong các nhóm đã chọn');render()},
+ reroll:()=>{const keep=todayIds().filter(k=>P[k]),ex=new Set(todayIds());
+  TODAY.ids=keep.concat(shuffle(newPool().filter(x=>!ex.has(x.k))).slice(0,Math.max(0,S.daily-keep.length)).map(x=>x.k));saveToday();toast('Đã đổi sang bộ từ khác');render()},
+ flip:()=>{SES.flipped=!SES.flipped;render()},
+ rate:d=>{const g=+d.g,k=SES.queue[SES.pos];
+  if(!SES.requeued.has(k))SES.cnt[g]++;grade(k,g);
+  if(g===1&&!SES.requeued.has(k)){SES.queue.push(k);SES.requeued.add(k)}
+  SES.pos++;SES.flipped=false;render()},
+ choose:d=>answerChoice(+d.i),
+ skipType:()=>answerType(''),
+ next:()=>{SES.pos++;if(SES.pos<SES.queue.length)SES.q=buildQ(SES.queue[SES.pos]);render();afterQRender();scrollTo(0,0)},
+ practice:d=>{const pool=Object.values(W).filter(x=>x.m&&(!PR.g||grpName(x)===PR.g)&&(PR.src==='all'||(PR.src==='learned'?P[x.k]:P[x.k]&&((P[x.k].lapses||0)+(P[x.k].ng||0))>0)));
+  if(!pool.length){toast(PR.src==='learned'?'Chưa có từ đã học trong nhóm này':'Không có từ phù hợp');return}
+  startSession(d.kind,shuffle(pool).slice(0,PR.n).map(x=>x.k),'Luyện tập','practice')},
+ weak:()=>startSession('quiz',Object.keys(P).filter(k=>W[k]&&((P[k].lapses||0)+(P[k].ng||0))>0).slice(0,30),'Từ hay sai','practice'),
+ vmore:()=>{VF.limit+=100;$('#vlist').innerHTML=vlist()},
+ edit:d=>openEdit(d.k),
+ del:d=>{const w=W[d.k];if(!w||!confirm(`Xoá “${w.w}” khỏi kho? Từ này sẽ không được nạp lại khi cập nhật.`))return;
+  delete W[d.k];delete P[d.k];DEL.add(d.k);saveAll();$('#vlist').innerHTML=vlist();toast('Đã xoá '+w.w)},
+ grpAll:()=>{S.exGroups=[];saveS();render()},
+ grpNone:()=>{S.exGroups=groupCounts().map(g=>g[0]);saveS();render()},
+ export:()=>{const data={app:'nihongo-moi-ngay',v:1,at:new Date().toISOString(),settings:S,words:W,prog:P,del:[...DEL],meta:META,today:TODAY};
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data)],{type:'application/json'}));
+  a.download='nihongo-sao-luu-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)},
+ reset:()=>{if(!confirm('Xoá toàn bộ từ vựng và tiến độ học trên trình duyệt này?'))return;
+  try{['jp_settings','jp_words','jp_prog','jp_del','jp_meta','jp_today'].forEach(k=>localStorage.removeItem(k))}catch(e){}location.reload()}
+};
+/* Đọc file JSON xuất từ Language Reactor (mỗi mục có word, wordTranslationsArr, context…) */
+const clean=s=>String(s||'').replace(/[\u200e\u200f\u202a-\u202e]/g,'').replace(/\s*\n\s*/g,' ').trim();
+function lrJsonToItems(arr){
+ return arr.filter(x=>x&&x.word&&x.word.text).map(x=>{
+  const ph=(x.context&&x.context.phrase)||{},subs=ph.subtitles||{},w=x.word.text,ref=ph.reference||{};
+  let i=Object.keys(subs).find(j=>clean(subs[j]).includes(w));if(i==null)i='1' in subs?'1':Object.keys(subs)[0];
+  return {w,r:kata2hira(x.word.translit||''),ro:'',m:(x.wordTranslationsArr||[]).join(', '),ex:clean(subs[i]),
+   exTr:clean((ph.hTranslations||{})[i]||(ph.mTranslations||{})[i]),g:(ref.title_arr||[])[0]||ref.diocoDocName||'',st:x.learningStage||'',src:'lrfile'};
+ });
+}
+function importLR(rows,items){
+ items=items||rowsToItems(rows,'lrfile');const st=importItems(items);
+ META.lrInfo=fmtTime(Date.now())+' — '+statText(st);saveAll();
+ if(TODAY&&todayIds().length<S.daily) topUpToday();
+ toast('✅ Language Reactor: '+statText(st),5000);render();
+}
+function openEdit(k){
+ const f=$('#editForm'),w=k?W[k]:{};f.dataset.k=k||'';$('#dlgTitle').textContent=k?'Sửa từ':'Thêm từ mới';
+ for(const n of ['w','r','ro','m','ex','exTr','g']) f.elements[n].value=w[n]||'';
+ $('#grpList').innerHTML=groupCounts().map(([g])=>`<option value="${esc(g)}">`).join('');
+ $('#dlg').showModal();
+}
+$('#dlg').addEventListener('close',()=>{
+ if($('#dlg').returnValue!=='ok') return;
+ const f=$('#editForm'),old=f.dataset.k,v={};for(const n of ['w','r','ro','m','ex','exTr','g']) v[n]=f.elements[n].value.trim();
+ if(!v.w||!v.m) return;
+ const k=normKey(v.w);
+ if(k!==old&&W[k]){toast('Từ “'+v.w+'” đã có trong kho');return}
+ const rec=Object.assign(old?W[old]:{src:['manual'],added:Date.now()},v,{k,edited:true});
+ if(old&&k!==old){delete W[old];if(P[old]){P[k]=P[old];delete P[old]}if(TODAY)TODAY.ids=TODAY.ids.map(x=>x===old?k:x)}
+ W[k]=rec;DEL.delete(k);saveAll();toast(old?'Đã lưu thay đổi':'Đã thêm '+v.w);render();
+});
+
+/* ================= SỰ KIỆN ================= */
+document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.disabled)return;e.stopPropagation();ACT[b.dataset.act]?.(b.dataset,b,e)});
+document.addEventListener('submit',e=>{if(e.target.dataset.form==='type'){e.preventDefault();answerType($('#typeIn').value)}});
+document.addEventListener('input',e=>{const t=e.target;
+ if(t.id==='typeIn'){const v=t.value.trim();$('#kanaPrev').textContent=v&&/[a-z]/i.test(v)?'→ '+romaToHira(v):''}
+ if(t.dataset.vf==='q'){VF.q=t.value;VF.limit=100;$('#vlist').innerHTML=vlist()}
+});
+document.addEventListener('change',e=>{const t=e.target;
+ if(t.dataset.set){const k=t.dataset.set;let v=t.type==='checkbox'?t.checked:(t.type==='number'||t.type==='range')?+t.value:t.value;
+  if(k==='daily')v=Math.max(1,Math.min(100,v|0)||10);if(k==='reviewCap')v=Math.max(5,v|0||40);
+  S[k]=v;saveS();if(k==='theme')applyTheme();
+  if(k==='daily')toast('Áp dụng từ ngày mai (hoặc bấm “Đổi bộ khác” để áp dụng ngay)');}
+ if(t.dataset.qt){S.quizTypes[t.dataset.qt]=t.checked;saveS()}
+ if(t.dataset.grp!=null){const g=t.dataset.grp;S.exGroups=S.exGroups.filter(x=>x!==g);if(!t.checked)S.exGroups.push(g);saveS()}
+ if(t.dataset.vf&&t.dataset.vf!=='q'){VF[t.dataset.vf]=t.value;VF.limit=100;$('#vlist').innerHTML=vlist()}
+ if(t.dataset.pr){PR[t.dataset.pr]=t.dataset.pr==='n'?+t.value:t.value}
+ if(t.id==='lrFile'&&t.files[0]) readFile(t.files[0],txt=>{
+  if(/\.json$/i.test(t.files[0].name)){let d;try{d=JSON.parse(txt)}catch(err){toast('File JSON không hợp lệ');return}
+   const items=Array.isArray(d)&&d.some(x=>x&&x.word&&x.word.text)?lrJsonToItems(d):null;importLR(items?null:jsonToRows(d),items)}
+  else importLR(parseDelimited(txt))});
+ if(t.id==='bakFile'&&t.files[0]) readFile(t.files[0],txt=>{
+  try{const d=JSON.parse(txt);if(d.app!=='nihongo-moi-ngay'||!d.words)throw 0;
+   if(!confirm('Thay toàn bộ dữ liệu hiện tại bằng file sao lưu này?'))return;
+   S=Object.assign({},DEF,d.settings);W=d.words;P=d.prog||{};DEL=new Set(d.del||[]);META=Object.assign(META,d.meta);TODAY=d.today;
+   saveS();saveAll();applyTheme();toast('✅ Đã khôi phục dữ liệu');render()}catch(err){toast('File sao lưu không hợp lệ')}});
+});
+function readFile(f,cb){const r=new FileReader();r.onload=()=>cb(String(r.result));r.onerror=()=>toast('Không đọc được file');r.readAsText(f,'utf-8')}
+document.addEventListener('keydown',e=>{
+ if(view!=='session'||!SES||$('#dlg').open)return;
+ if(e.target.matches('input,textarea,select'))return;
+ if(e.key==='Escape'){ACT.quit();return}
+ if(SES.pos>=SES.queue.length)return;
+ if(SES.kind==='cards'){
+  if(e.key===' '||e.key==='Enter'){e.preventDefault();ACT.flip()}
+  else if(SES.flipped&&/^[1-4]$/.test(e.key)){e.preventDefault();ACT.rate({g:e.key})}
+ }else{const q=SES.q;
+  if(!q.done&&q.type!=='type'&&/^[1-4]$/.test(e.key)&&+e.key<=q.opts.length){e.preventDefault();answerChoice(+e.key-1)}
+  else if(q.done&&(e.key==='Enter'||e.key===' ')){e.preventDefault();ACT.next()}
+ }
+});
+
+/* ================= KHỞI ĐỘNG ================= */
+(function boot(){
+ applyTheme();
+ // Chỉ giữ từ của Language Reactor (dữ liệu gắn sẵn + file xuất bạn nhập sau này)
+ const lrKeys=new Set(LR_EMBED.map(x=>normKey(x[0])));let removed=0;
+ for(const k in W){if(!lrKeys.has(k)&&!(W[k].src||[]).includes('lrfile')){delete W[k];delete P[k];removed++}}
+ if(removed){if(TODAY)TODAY.ids=TODAY.ids.filter(k=>W[k])}
+ if(META.lrVer!==LR_VER){ // dữ liệu gắn sẵn mới → gộp vào kho (bỏ qua từ trùng / đã xoá)
+  const st=importItems(LR_EMBED.map(x=>({w:x[0],r:x[1],ro:'',m:x[2],ex:x[3],exTr:x[4],g:x[5],st:x[6]?'KNOWN':'',src:'lr'})));
+  META.lrVer=LR_VER;if(!META.lrInfo)META.lrInfo='Dữ liệu có sẵn ('+LR_DATE+') — '+statText(st);
+ }
+ saveAll();
+ for(const k of ['lastSync','lastFail','syncInfo']) delete META[k];
+ for(const k of ['syncTime','sheetUrl','trustSheet']) delete S[k];
+ ensureToday();render();
+ setInterval(checkDay,60*1000); // kiểm tra sang ngày mới mỗi phút
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkDay()});
+})();
+</script>
+</body>
+</html>
